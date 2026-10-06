@@ -974,7 +974,7 @@ public class ContactListItemView extends ViewGroup
     private RippleDrawable getCardDrawable() {
         if (mCardDrawable == null) {
             mCardShape = new GradientDrawable();
-            mCardShape.setColor(getContext().getColor(R.color.lunaris_surface_container_low));
+            mCardShape.setColor(getContext().getColor(R.color.lunaris_surface_bright));
             mCardDrawable = new RippleDrawable(ColorStateList.valueOf(
                     getContext().getColor(R.color.control_highlight_color)), mCardShape, null);
             mCardDrawable.setCallback(this);

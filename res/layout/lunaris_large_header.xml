@@ -32,8 +32,8 @@
         android:layout_marginStart="@dimen/lunaris_header_margin"
         android:layout_marginEnd="@dimen/lunaris_header_margin"
         android:ellipsize="end"
-        android:fontFamily="sans-serif-medium"
         android:maxLines="1"
+        android:textStyle="bold"
         android:textColor="@color/lunaris_on_surface"
         android:textSize="@dimen/lunaris_header_title_size" />
 

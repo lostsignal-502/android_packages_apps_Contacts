@@ -15,5 +15,5 @@
      limitations under the License.
 -->
 <resources>
-    <color name="navigation_bar_bg">@color/lunaris_surface</color>
+    <color name="navigation_bar_bg">@color/lunaris_surface_container</color>
 </resources>

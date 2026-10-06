@@ -8,7 +8,7 @@
     <item>
         <inset android:inset="6dp">
             <shape android:shape="oval">
-                <solid android:color="@color/lunaris_secondary_container" />
+                <solid android:color="@color/lunaris_tile" />
             </shape>
         </inset>
     </item>

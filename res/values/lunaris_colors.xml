@@ -31,6 +31,7 @@
     <color name="lunaris_on_error_container">@android:color/system_on_error_container_light</color>
     <color name="lunaris_inverse_surface">@android:color/system_inverse_surface_light</color>
     <color name="lunaris_inverse_on_surface">@android:color/system_inverse_on_surface_light</color>
+    <color name="lunaris_surface_variant">@android:color/system_surface_variant_light</color>
     <color name="lunaris_fab">@color/lunaris_primary_container</color>
     <color name="lunaris_on_fab">@color/lunaris_on_primary_container</color>
 </resources>
