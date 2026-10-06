@@ -30,6 +30,8 @@ import android.content.IntentFilter;
 import android.content.SyncStatusObserver;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.RenderEffect;
+import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,6 +57,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
@@ -318,6 +321,20 @@ public class PeopleActivity extends AppCompatContactsActivity implements
             } else if (actionBarAdapter.isSelectionMode()) {
                 actionBarAdapter.setSelectionMode(false);
             }
+        }
+
+        @Override
+        public void onDrawerSlide(View drawerView, float slideOffset) {
+            super.onDrawerSlide(drawerView, slideOffset);
+            final View content = findViewById(R.id.fragment_container);
+            if (!getSystemService(WindowManager.class).isCrossWindowBlurEnabled()) {
+                content.setRenderEffect(null);
+                return;
+            }
+            final float radius = slideOffset * getResources().getDimension(
+                    R.dimen.lunaris_drawer_blur_radius);
+            content.setRenderEffect(radius < 1f ? null
+                    : RenderEffect.createBlurEffect(radius, radius, Shader.TileMode.CLAMP));
         }
 
         @Override

@@ -375,6 +375,9 @@
     </style>
 
     <style name="ContactsAlertDialogThemeAppCompat" parent="Theme.Material3.DayNight.Dialog.Alert">
+        <item name="android:windowBlurBehindEnabled">true</item>
+        <item name="android:windowBlurBehindRadius">@dimen/lunaris_blur_behind_radius</item>
+        <item name="android:backgroundDimAmount">0.32</item>
         <item name="android:colorAccent">@color/primary_color</item>
         <item name="colorAccent">@color/primary_color</item>
     </style>
