@@ -148,8 +148,7 @@ public class ActionBarAdapter implements OnCloseListener {
                 /* attachToRoot = */ false);
         mSearchContainer.setVisibility(View.VISIBLE);
         mToolbar.addView(mSearchContainer);
-        mSearchContainer.setBackgroundColor(mActivity.getResources().getColor(
-                R.color.searchbox_background_color));
+        mSearchContainer.setBackgroundResource(R.drawable.lunaris_search_pill);
         mSearchView = (EditText) mSearchContainer.findViewById(R.id.search_view);
         mSearchView.setHint(mActivity.getString(mSearchHintResId));
         mSearchView.addTextChangedListener(new SearchTextWatcher());
@@ -361,6 +360,9 @@ public class ActionBarAdapter implements OnCloseListener {
     }
 
     private void update(boolean skipAnimation) {
+        if (mActivity instanceof PeopleActivity) {
+            ((PeopleActivity) mActivity).setLargeHeaderHidden(mSearchMode || mSelectionMode);
+        }
         updateOverflowButtonColor();
 
         final boolean isSelectionModeChanging

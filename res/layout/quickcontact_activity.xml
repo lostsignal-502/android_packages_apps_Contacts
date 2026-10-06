@@ -1,54 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2011 The Android Open Source Project
-
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-
-          http://www.apache.org/licenses/LICENSE-2.0
-
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
+     SPDX-FileCopyrightText: 2026 Lunaris-AOSP
+     SPDX-License-Identifier: Apache-2.0
 -->
-<com.android.contacts.widget.MultiShrinkScroller
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/quickcontact_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/multiscroller"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:descendantFocusability="afterDescendants" >
+    android:background="@color/background_primary">
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/content_scroller"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingTop="?android:attr/actionBarSize">
 
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/quickcontact_starting_empty_height"
-            android:contentDescription="@string/quickcontact_transparent_view_description"
-            android:id="@+id/transparent_view" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/toolbar_parent">
-            <include layout="@layout/quickcontact_header" />
-        </FrameLayout>
+            <com.android.contacts.widget.QuickContactImageView
+                android:id="@+id/photo"
+                android:layout_width="@dimen/lunaris_quickcontact_photo_size"
+                android:layout_height="@dimen/lunaris_quickcontact_photo_size"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:scaleType="centerCrop" />
 
-        <include layout="@layout/quickcontact_content" />
+            <TextView
+                android:id="@+id/large_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/lunaris_header_margin"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="@dimen/lunaris_header_margin"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:maxLines="2"
+                android:textColor="@color/lunaris_on_surface"
+                android:textSize="34sp" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/phonetic_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/lunaris_header_margin"
+                android:layout_marginEnd="@dimen/lunaris_header_margin"
+                android:gravity="center"
+                android:textColor="@color/lunaris_on_surface_variant"
+                android:textSize="16sp"
+                android:visibility="gone" />
 
-    <!-- This title's maximum height must be less than the minimum size of its
-         parent ViewGroup because of an oddity in the way View#setScaleY() works. As a result,
-         this title can not be inside @style/quickcontact_header. -->
-    <include layout="@layout/quickcontact_title_and_phoneticname" />
+            <LinearLayout
+                android:id="@+id/quick_actions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
 
-</com.android.contacts.widget.MultiShrinkScroller>
+                <include
+                    android:id="@+id/quick_action_call"
+                    layout="@layout/lunaris_quick_action" />
+
+                <include
+                    android:id="@+id/quick_action_message"
+                    layout="@layout/lunaris_quick_action" />
+
+                <include
+                    android:id="@+id/quick_action_video"
+                    layout="@layout/lunaris_quick_action" />
+
+                <include
+                    android:id="@+id/quick_action_email"
+                    layout="@layout/lunaris_quick_action" />
+            </LinearLayout>
+
+            <include layout="@layout/quickcontact_content" />
+        </LinearLayout>
+    </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/toolbar_parent"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/background_primary">
+
+        <ImageButton
+            android:id="@+id/quickcontact_back"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="start|bottom"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/lunaris_round_button"
+            android:contentDescription="@string/back_arrow_content_description"
+            android:src="@drawable/quantum_ic_arrow_back_vd_theme_24"
+            android:tint="@color/actionbar_icon_color" />
+
+        <Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_gravity="end|bottom"
+            android:paddingEnd="12dp" />
+    </FrameLayout>
+</FrameLayout>

@@ -999,7 +999,8 @@ class ContactPhotoManagerImpl extends ContactPhotoManager implements Callback {
             final RoundedBitmapDrawable drawable =
                     RoundedBitmapDrawableFactory.create(resources, bitmap);
             drawable.setAntiAlias(true);
-            drawable.setCornerRadius(bitmap.getHeight() / 2);
+            drawable.setCornerRadius(Math.min(bitmap.getWidth(), bitmap.getHeight())
+                    * LetterTileDrawable.CORNER_RATIO);
             return drawable;
         } else {
             return new BitmapDrawable(resources, bitmap);

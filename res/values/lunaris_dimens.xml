@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 Lunaris-AOSP
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <dimen name="lunaris_page_margin">16dp</dimen>
+    <dimen name="lunaris_header_margin">24dp</dimen>
+    <dimen name="lunaris_header_title_size">44sp</dimen>
+    <dimen name="lunaris_header_label_size">16sp</dimen>
+    <dimen name="lunaris_search_pill_height">56dp</dimen>
+    <dimen name="lunaris_card_radius">24dp</dimen>
+    <dimen name="lunaris_card_inner_radius">6dp</dimen>
+    <dimen name="lunaris_card_gap">2dp</dimen>
+    <dimen name="lunaris_card_section_gap">6dp</dimen>
+    <dimen name="lunaris_avatar_radius">14dp</dimen>
+    <dimen name="lunaris_icon_tile_size">48dp</dimen>
+    <dimen name="lunaris_icon_tile_radius">16dp</dimen>
+    <dimen name="lunaris_quickcontact_photo_size">168dp</dimen>
+</resources>

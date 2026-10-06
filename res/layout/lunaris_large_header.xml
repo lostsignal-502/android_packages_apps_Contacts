@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 Lunaris-AOSP
+     SPDX-License-Identifier: Apache-2.0
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/large_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    app:layout_collapseMode="parallax"
+    app:layout_collapseParallaxMultiplier="0.4">
+
+    <TextView
+        android:id="@+id/large_header_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/lunaris_header_margin"
+        android:layout_marginEnd="@dimen/lunaris_header_margin"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/applicationLabel"
+        android:textColor="@color/lunaris_primary"
+        android:textSize="@dimen/lunaris_header_label_size" />
+
+    <TextView
+        android:id="@+id/large_header_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/lunaris_header_margin"
+        android:layout_marginEnd="@dimen/lunaris_header_margin"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:maxLines="1"
+        android:textColor="@color/lunaris_on_surface"
+        android:textSize="@dimen/lunaris_header_title_size" />
+
+    <TextView
+        android:id="@+id/large_header_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/lunaris_search_pill_height"
+        android:layout_marginStart="@dimen/lunaris_page_margin"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="@dimen/lunaris_page_margin"
+        android:background="@drawable/lunaris_search_pill"
+        android:drawableStart="@drawable/quantum_ic_search_vd_theme_24"
+        android:drawablePadding="16dp"
+        android:drawableTint="@color/lunaris_on_surface_variant"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="@string/hint_findContacts"
+        android:textColor="@color/lunaris_on_surface_variant"
+        android:textSize="17sp" />
+</LinearLayout>

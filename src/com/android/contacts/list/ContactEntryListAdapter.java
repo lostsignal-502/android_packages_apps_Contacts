@@ -127,6 +127,13 @@ public abstract class ContactEntryListAdapter extends IndexerListAdapter {
     protected void bindView(View itemView, int partition, Cursor cursor, int position) {
         final ContactListItemView view = (ContactListItemView) itemView;
         view.setIsSectionHeaderEnabled(isSectionHeaderDisplayEnabled());
+        if (isSectionHeaderDisplayEnabled()) {
+            final Placement placement = getItemPlacementInSection(position);
+            view.setCardPosition(placement.firstInSection || cursor.isFirst(),
+                    placement.lastInSection || cursor.isLast());
+        } else {
+            view.setCardPosition(cursor.isFirst(), cursor.isLast());
+        }
         bindWorkProfileIcon(view, partition);
     }
 

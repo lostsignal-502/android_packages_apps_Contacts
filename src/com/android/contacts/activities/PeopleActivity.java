@@ -47,15 +47,18 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.google.android.material.appbar.AppBarLayout;
 import android.util.Log;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.contacts.AppCompatContactsActivity;
@@ -187,6 +190,13 @@ public class PeopleActivity extends AppCompatContactsActivity implements
     private DrawerFragment mDrawerFragment;
     private ContactsActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
+    private AppBarLayout mAppBar;
+    private View mLargeHeader;
+    private TextView mLargeHeaderTitle;
+    private View mLargeHeaderSearch;
+    private CharSequence mTitle;
+    private boolean mHeaderCollapsed;
+    private boolean mLargeHeaderHidden;
 
     // The account the new group will be created under.
     private AccountWithDataSet mNewGroupAccount;
@@ -371,8 +381,19 @@ public class PeopleActivity extends AppCompatContactsActivity implements
         mToolbar = getView(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        // Add shadow under toolbar.
-        ViewUtil.addRectangularOutlineProvider(findViewById(R.id.toolbar_parent), getResources());
+        mAppBar = findViewById(R.id.app_bar);
+        mLargeHeader = findViewById(R.id.large_header);
+        mLargeHeaderTitle = findViewById(R.id.large_header_title);
+        mLargeHeaderSearch = findViewById(R.id.large_header_search);
+        mLargeHeaderSearch.setOnClickListener(v -> startSearchFromHeader());
+        mAppBar.addOnOffsetChangedListener((appBar, offset) -> {
+            final boolean collapsed = mLargeHeader.getVisibility() == View.VISIBLE
+                    && offset + appBar.getTotalScrollRange() == 0;
+            if (collapsed != mHeaderCollapsed) {
+                mHeaderCollapsed = collapsed;
+                updateToolbarTitle();
+            }
+        });
 
         // Set up hamburger button.
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -541,8 +562,7 @@ public class PeopleActivity extends AppCompatContactsActivity implements
 
         // Configure floating action button
         mFloatingActionButtonContainer = findViewById(R.id.floating_action_button_container);
-        final ImageButton floatingActionButton
-                = (ImageButton) findViewById(R.id.floating_action_button);
+        final View floatingActionButton = findViewById(R.id.floating_action_button);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -973,6 +993,7 @@ public class PeopleActivity extends AppCompatContactsActivity implements
             mContactListFilterController.setContactListFilter(current, false);
         }
         mCurrentView = ContactsView.ACCOUNT_VIEW;
+        updateLargeHeader();
         AccountFilterUtil.handleAccountFilterResult(mContactListFilterController,
                 AppCompatActivity.RESULT_OK, intent);
     }
@@ -992,6 +1013,7 @@ public class PeopleActivity extends AppCompatContactsActivity implements
 
     private void switchView(ContactsView contactsView) {
         mCurrentView = contactsView;
+        updateLargeHeader();
 
         final FragmentManager fragmentManager =  getFragmentManager();
         final FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -1023,6 +1045,7 @@ public class PeopleActivity extends AppCompatContactsActivity implements
         popSecondLevel();
         mShouldSwitchToAllContacts = false;
         mCurrentView = ContactsView.ALL_CONTACTS;
+        updateLargeHeader();
         mDrawerFragment.setNavigationItemChecked(ContactsView.ALL_CONTACTS);
         showFabWithAnimation(/* showFab */ true);
         mContactsListFragment.scrollToTop();
@@ -1290,6 +1313,47 @@ public class PeopleActivity extends AppCompatContactsActivity implements
 
     public void closeDrawer() {
         mDrawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    protected void onTitleChanged(CharSequence title, int color) {
+        mTitle = title;
+        if (mLargeHeaderTitle != null) {
+            mLargeHeaderTitle.setText(TextUtils.equals(title, getString(R.string.contactsList))
+                    ? getString(R.string.separatorJoinAggregateAll) : title);
+        }
+        updateToolbarTitle();
+    }
+
+    private void updateToolbarTitle() {
+        super.onTitleChanged(mHeaderCollapsed || mLargeHeader == null ? mTitle : "", 0);
+    }
+
+    public void setLargeHeaderHidden(boolean hidden) {
+        mLargeHeaderHidden = hidden;
+        updateLargeHeader();
+    }
+
+    private void updateLargeHeader() {
+        if (mLargeHeader == null) {
+            return;
+        }
+        mLargeHeader.setVisibility(mLargeHeaderHidden ? View.GONE : View.VISIBLE);
+        mLargeHeaderSearch.setVisibility(isAllContactsView() || isAccountView()
+                ? View.VISIBLE : View.GONE);
+        mAppBar.setExpanded(true, false);
+    }
+
+    private void startSearchFromHeader() {
+        final ActionBarAdapter actionBarAdapter = mContactsListFragment == null
+                ? null : mContactsListFragment.getActionBarAdapter();
+        if (actionBarAdapter != null && !actionBarAdapter.isSelectionMode()) {
+            actionBarAdapter.setSearchMode(true);
+        }
+    }
+
+    public void openSettings() {
+        startActivity(createPreferenceIntent());
     }
 
     private Intent createPreferenceIntent() {

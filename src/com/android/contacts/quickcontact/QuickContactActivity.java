@@ -88,9 +88,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.WindowManager;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -168,8 +171,6 @@ import com.android.contacts.util.SharedPreferenceUtil;
 import com.android.contacts.util.StructuredPostalUtils;
 import com.android.contacts.util.UriUtils;
 import com.android.contacts.util.ViewUtil;
-import com.android.contacts.widget.MultiShrinkScroller;
-import com.android.contacts.widget.MultiShrinkScroller.MultiShrinkScrollerListener;
 import com.android.contacts.widget.QuickContactImageView;
 import com.android.contactsbind.HelpUtils;
 
@@ -295,7 +296,7 @@ public class QuickContactActivity extends ContactsActivity {
 
     private long mPreviousContactId = 0;
 
-    private MultiShrinkScroller mScroller;
+    private ViewGroup mAnimationRoot;
     private AsyncTask<Void, Void, Cp2DataCardModel> mEntriesAndActionsTask;
 
     /**
@@ -310,10 +311,15 @@ public class QuickContactActivity extends ContactsActivity {
      * animation, the opacity is directly related to scroll position.
      */
     private ColorDrawable mWindowScrim;
+    private TextView mLargeTitle;
+    private TextView mPhoneticNameView;
+    private View mCallAction;
+    private View mMessageAction;
+    private View mVideoAction;
+    private View mEmailAction;
 
     private boolean mIsEntranceAnimationFinished;
     private MaterialColorMapUtils mMaterialColorMapUtils;
-    private boolean mIsExitAnimationInProgress;
     private boolean mHasComputedThemeColor;
 
     /**
@@ -442,17 +448,14 @@ public class QuickContactActivity extends ContactsActivity {
             new ExpandingEntryCardViewListener() {
                 @Override
                 public void onCollapse(int heightDelta) {
-                    mScroller.prepareForShrinkingScrollChild(heightDelta);
                 }
 
                 @Override
                 public void onExpand() {
-                    mScroller.setDisableTouchesForSuppressLayout(/* areTouchesDisabled= */ true);
                 }
 
                 @Override
                 public void onExpandDone() {
-                    mScroller.setDisableTouchesForSuppressLayout(/* areTouchesDisabled= */ false);
                 }
             };
 
@@ -569,41 +572,6 @@ public class QuickContactActivity extends ContactsActivity {
                 throw new IllegalArgumentException("Unknown menu option " + item.getItemId());
         }
     }
-
-    final MultiShrinkScrollerListener mMultiShrinkScrollerListener =
-            new MultiShrinkScrollerListener() {
-                @Override
-                public void onScrolledOffBottom() {
-                    finish();
-                }
-
-                @Override
-                public void onEnterFullscreen() {
-                    updateStatusBarColor();
-                }
-
-                @Override
-                public void onExitFullscreen() {
-                    updateStatusBarColor();
-                }
-
-                @Override
-                public void onStartScrollOffBottom() {
-                    mIsExitAnimationInProgress = true;
-                }
-
-                @Override
-                public void onEntranceAnimationDone() {
-                    mIsEntranceAnimationFinished = true;
-                }
-
-                @Override
-                public void onTransparentViewHeightChange(float ratio) {
-                    if (mIsEntranceAnimationFinished) {
-                        mWindowScrim.setAlpha((int) (0xFF * ratio));
-                    }
-                }
-            };
 
     /**
      * Data items are compared to the same mimetype based off of three qualities: 1. Super primary
@@ -739,7 +707,7 @@ public class QuickContactActivity extends ContactsActivity {
 
         mMaterialColorMapUtils = new MaterialColorMapUtils(getResources());
 
-        mScroller = (MultiShrinkScroller) findViewById(R.id.multiscroller);
+        mAnimationRoot = findViewById(R.id.quickcontact_root);
 
         mContactCard = (ExpandingEntryCardView) findViewById(R.id.communication_card);
         mNoContactDetailsCard = (ExpandingEntryCardView) findViewById(R.id.no_contact_data_card);
@@ -753,97 +721,39 @@ public class QuickContactActivity extends ContactsActivity {
         mAboutCard.setOnCreateContextMenuListener(mEntryContextMenuListener);
 
         mPhotoView = (QuickContactImageView) findViewById(R.id.photo);
-        final View transparentView = findViewById(R.id.transparent_view);
-        if (mScroller != null) {
-            transparentView.setOnClickListener(
-                    new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mScroller.scrollOffBottom();
-                        }
-                    });
-        }
-
-        // Allow a shadow to be shown under the toolbar.
-        ViewUtil.addRectangularOutlineProvider(findViewById(R.id.toolbar_parent), getResources());
-
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final View contentScroller = findViewById(R.id.content_scroller);
+        final int scrollerPaddingTop = contentScroller.getPaddingTop();
         MoreContactUtils.setupEdgeToEdge(
-                this, new EdgeToEdgeInsetHandler(findViewById(R.id.toolbar_parent)));
-        setActionBar(toolbar);
-        getActionBar().setTitle(null);
-        // Put a TextView with a known resource id into the ActionBar. This allows us to easily
-        // find the correct TextView location & size later.
-        toolbar.addView(getLayoutInflater().inflate(R.layout.quickcontact_title_placeholder, null));
-
-        mHasAlreadyBeenOpened = savedInstanceState != null;
-        mIsEntranceAnimationFinished = mHasAlreadyBeenOpened;
-        mWindowScrim = new ColorDrawable(SCRIM_COLOR);
-        mWindowScrim.setAlpha(0);
-        getWindow().setBackgroundDrawable(mWindowScrim);
-
-        mScroller.initialize(
-                mMultiShrinkScrollerListener,
-                mExtraMode == MODE_FULLY_EXPANDED,
-                /* maximumHeaderTextSize */ -1,
-                /* shouldUpdateNameViewHeight */ true);
-        // mScroller needs to perform asynchronous measurements after initalize(), therefore
-        // we can't mark this as GONE.
-        mScroller.setVisibility(View.INVISIBLE);
-
-        setHeaderNameText(R.string.missing_name);
-
-        SchedulingUtils.doOnPreDraw(
-                mScroller,
-                /* drawNextFrame= */ true,
-                new Runnable() {
+                this, new EdgeToEdgeInsetHandler(findViewById(R.id.toolbar_parent)) {
                     @Override
-                    public void run() {
-                        if (!mHasAlreadyBeenOpened) {
-                            // The initial scrim opacity must match the scrim opacity that would be
-                            // achieved by scrolling to the starting position.
-                            final float alphaRatio =
-                                    mExtraMode == MODE_FULLY_EXPANDED
-                                            ? 1
-                                            : mScroller.getStartingTransparentHeightRatio();
-                            final int duration =
-                                    getResources()
-                                            .getInteger(android.R.integer.config_shortAnimTime);
-                            final int desiredAlpha = (int) (0xFF * alphaRatio);
-                            ObjectAnimator o =
-                                    ObjectAnimator.ofInt(mWindowScrim, "alpha", 0, desiredAlpha)
-                                            .setDuration(duration);
-
-                            o.start();
-                        }
+                    public void applyTopInset(int top) {
+                        super.applyTopInset(top);
+                        contentScroller.setPadding(contentScroller.getPaddingLeft(),
+                                scrollerPaddingTop + top, contentScroller.getPaddingRight(),
+                                contentScroller.getPaddingBottom());
                     }
                 });
+        setActionBar(toolbar);
+        getActionBar().setTitle(null);
+        findViewById(R.id.quickcontact_back).setOnClickListener(v -> onBackPressed());
 
-        if (savedInstanceState != null) {
-            final int color = savedInstanceState.getInt(KEY_THEME_COLOR, 0);
-            SchedulingUtils.doOnPreDraw(
-                    mScroller,
-                    /* drawNextFrame= */ false,
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            // Need to wait for the pre draw before setting the initial scroll
-                            // value. Prior to pre draw all scroll values are invalid.
-                            if (mHasAlreadyBeenOpened) {
-                                mScroller.setVisibility(View.VISIBLE);
-                                mScroller.setScroll(mScroller.getScrollNeededToBeFullScreen());
-                            }
-                            // Need to wait for pre draw for setting the theme color. Setting the
-                            // header tint before the MultiShrinkScroller has been measured will
-                            // cause incorrect tinting calculations.
-                            if (color != 0) {
-                                setThemeColor(
-                                        mMaterialColorMapUtils.calculatePrimaryAndSecondaryColor(
-                                                color));
-                            }
-                        }
-                    });
-        }
+        mLargeTitle = findViewById(R.id.large_title);
+        mPhoneticNameView = findViewById(R.id.phonetic_name);
+        mCallAction = setupQuickAction(R.id.quick_action_call,
+                R.drawable.quantum_ic_phone_vd_theme_24, R.string.call_other);
+        mMessageAction = setupQuickAction(R.id.quick_action_message,
+                R.drawable.quantum_ic_message_vd_theme_24, R.string.lunaris_quick_action_message);
+        mVideoAction = setupQuickAction(R.id.quick_action_video,
+                R.drawable.quantum_ic_videocam_vd_theme_24, R.string.lunaris_quick_action_video);
+        mEmailAction = setupQuickAction(R.id.quick_action_email,
+                R.drawable.quantum_ic_email_vd_theme_24, R.string.email_other);
+
+        mHasAlreadyBeenOpened = savedInstanceState != null;
+        mIsEntranceAnimationFinished = true;
+        mWindowScrim = new ColorDrawable(SCRIM_COLOR);
+
+        setHeaderNameText(R.string.missing_name);
 
         Trace.endSection();
     }
@@ -967,9 +877,6 @@ public class QuickContactActivity extends ContactsActivity {
             return;
         }
         mHasAlreadyBeenOpened = true;
-        mScroller.scrollUpForEntranceAnimation(
-                /* scrollToCurrentPosition */ !isMultiWindowOnPhone()
-                        && (mExtraMode != MODE_FULLY_EXPANDED));
     }
 
     private boolean isMultiWindowOnPhone() {
@@ -978,18 +885,17 @@ public class QuickContactActivity extends ContactsActivity {
 
     /** Assign this string to the view if it is not empty. */
     private void setHeaderNameText(int resId) {
-        if (mScroller != null) {
-            mScroller.setTitle(
-                    getText(resId) == null ? null : getText(resId).toString(),
-                    /* isPhoneNumber= */ false);
+        if (mLargeTitle != null) {
+            mLargeTitle.setText(resId);
         }
     }
 
     /** Assign this string to the view if it is not empty. */
     private void setHeaderNameText(String value, boolean isPhoneNumber) {
         if (!TextUtils.isEmpty(value)) {
-            if (mScroller != null) {
-                mScroller.setTitle(value, isPhoneNumber);
+            if (mLargeTitle != null) {
+                mLargeTitle.setText(isPhoneNumber
+                        ? PhoneNumberUtilsCompat.createTtsSpannable(value) : value);
             }
         }
     }
@@ -1048,13 +954,11 @@ public class QuickContactActivity extends ContactsActivity {
         setHeaderNameText(
                 displayName, mContactData.getDisplayNameSource() == DisplayNameSources.PHONE);
         final String phoneticName = ContactDisplayUtils.getPhoneticName(this, data);
-        if (mScroller != null) {
-            // Show phonetic name only when it doesn't equal the display name.
-            if (!TextUtils.isEmpty(phoneticName) && !phoneticName.equals(displayName)) {
-                mScroller.setPhoneticName(phoneticName);
-            } else {
-                mScroller.setPhoneticNameGone();
-            }
+        if (mPhoneticNameView != null) {
+            final boolean showPhonetic =
+                    !TextUtils.isEmpty(phoneticName) && !phoneticName.equals(displayName);
+            mPhoneticNameView.setText(phoneticName);
+            mPhoneticNameView.setVisibility(showPhonetic ? View.VISIBLE : View.GONE);
         }
 
         Trace.endSection();
@@ -1092,21 +996,65 @@ public class QuickContactActivity extends ContactsActivity {
         mOnlyOneEmail = emailDataItems != null && emailDataItems.size() == 1;
 
         populateContactAndAboutCard(cp2DataCardModel, /* shouldAddPhoneticName */ true);
+        bindQuickActions(phoneDataItems, emailDataItems);
+    }
+
+    private View setupQuickAction(int id, int iconRes, int labelRes) {
+        final View action = findViewById(id);
+        final ImageButton button = action.findViewById(R.id.quick_action_button);
+        button.setImageResource(iconRes);
+        button.setContentDescription(getText(labelRes));
+        ((TextView) action.findViewById(R.id.quick_action_label)).setText(labelRes);
+        return action;
+    }
+
+    private void bindQuickActions(List<DataItem> phones, List<DataItem> emails) {
+        final String number = getPrimaryData(phones);
+        final String address = getPrimaryData(emails);
+        bindQuickAction(mCallAction, number == null ? null : CallUtil.getCallIntent(number));
+        bindQuickAction(mMessageAction, number == null ? null
+                : new Intent(Intent.ACTION_SENDTO,
+                        Uri.fromParts(ContactsUtils.SCHEME_SMSTO, number, null)));
+        final boolean videoEnabled = (CallUtil.getVideoCallingAvailability(this)
+                & CallUtil.VIDEO_CALLING_ENABLED) != 0;
+        mVideoAction.setVisibility(videoEnabled ? View.VISIBLE : View.GONE);
+        bindQuickAction(mVideoAction, number == null || !videoEnabled ? null
+                : CallUtil.getVideoCallIntent(number, null));
+        bindQuickAction(mEmailAction, address == null ? null
+                : new Intent(Intent.ACTION_SENDTO,
+                        Uri.fromParts(ContactsUtils.SCHEME_MAILTO, address, null)));
+    }
+
+    private static String getPrimaryData(List<DataItem> items) {
+        if (items == null || items.isEmpty()) {
+            return null;
+        }
+        DataItem primary = items.get(0);
+        for (DataItem item : items) {
+            if (item.isSuperPrimary()) {
+                primary = item;
+                break;
+            }
+        }
+        if (primary instanceof PhoneDataItem) {
+            return ((PhoneDataItem) primary).getNumber();
+        }
+        if (primary instanceof EmailDataItem) {
+            return ((EmailDataItem) primary).getAddress();
+        }
+        return null;
+    }
+
+    private void bindQuickAction(View action, Intent intent) {
+        final View button = action.findViewById(R.id.quick_action_button);
+        button.setEnabled(intent != null);
+        action.setAlpha(intent != null ? 1f : 0.38f);
+        button.setOnClickListener(intent == null ? null
+                : v -> ImplicitIntentsUtil.startActivityInAppIfPossible(this, intent));
     }
 
     private void showActivity() {
-        if (mScroller != null) {
-            mScroller.setVisibility(View.VISIBLE);
-            SchedulingUtils.doOnPreDraw(
-                    mScroller,
-                    /* drawNextFrame= */ false,
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            runEntranceAnimation();
-                        }
-                    });
-        }
+        runEntranceAnimation();
     }
 
     private List<List<Entry>> buildAboutCardEntries(Map<String, List<DataItem>> dataItemsMap) {
@@ -1164,7 +1112,7 @@ public class QuickContactActivity extends ContactsActivity {
                     /* isExpanded= */ mContactCard.isExpanded(),
                     /* isAlwaysExpanded= */ true,
                     mExpandingEntryCardViewListener,
-                    mScroller);
+                    mAnimationRoot);
             if (mContactCard.getVisibility() == View.GONE && mShouldLog) {
                 Logger.logQuickContactEvent(
                         mReferrer,
@@ -1240,7 +1188,7 @@ public class QuickContactActivity extends ContactsActivity {
                 /* isExpanded= */ true,
                 /* isAlwaysExpanded= */ true,
                 mExpandingEntryCardViewListener,
-                mScroller);
+                mAnimationRoot);
 
         if (contactCardEntries.size() == 0 && aboutCardEntries.size() == 0) {
             initializeNoContactDetailCard(cp2DataCardModel.areAllRawContactsSimAccounts);
@@ -1345,7 +1293,7 @@ public class QuickContactActivity extends ContactsActivity {
                 /* isExpanded= */ true,
                 /* isAlwaysExpanded= */ true,
                 mExpandingEntryCardViewListener,
-                mScroller);
+                mAnimationRoot);
         if (mNoContactDetailsCard.getVisibility() == View.GONE && mShouldLog) {
             Logger.logQuickContactEvent(
                     mReferrer,
@@ -2247,12 +2195,9 @@ public class QuickContactActivity extends ContactsActivity {
 
     /**
      * Asynchronously extract the most vibrant color from the PhotoView. Once extracted, apply this
-     * tint to {@link MultiShrinkScroller}. This operation takes about 20-30ms on a Nexus 5.
+     * tint to the cards. This operation takes about 20-30ms on a Nexus 5.
      */
     private void extractAndApplyTintFromPhotoViewAsynchronously() {
-        if (mScroller == null) {
-            return;
-        }
         final Drawable imageViewDrawable = mPhotoView.getDrawable();
         new AsyncTask<Void, Void, MaterialPalette>() {
             @Override
@@ -2310,37 +2255,12 @@ public class QuickContactActivity extends ContactsActivity {
 
     private void setThemeColor(MaterialPalette palette) {
         // If the color is invalid, use the predefined default
-        mColorFilterColor = palette.mPrimaryColor;
-        mScroller.setHeaderTintColor(mColorFilterColor);
+        mColorFilterColor = getColor(R.color.lunaris_primary);
         mStatusBarColor = palette.mSecondaryColor;
-        updateStatusBarColor();
 
         mColorFilter = new PorterDuffColorFilter(mColorFilterColor, PorterDuff.Mode.SRC_ATOP);
         mContactCard.setColorAndFilter(mColorFilterColor, mColorFilter);
         mAboutCard.setColorAndFilter(mColorFilterColor, mColorFilter);
-    }
-
-    private void updateStatusBarColor() {
-        if (mScroller == null || !CompatUtils.isLollipopCompatible()) {
-            return;
-        }
-        final int desiredStatusBarColor;
-        // Only use a custom status bar color if QuickContacts touches the top of the viewport.
-        if (mScroller.getScrollNeededToBeFullScreen() <= 0) {
-            desiredStatusBarColor = mStatusBarColor;
-        } else {
-            desiredStatusBarColor = Color.TRANSPARENT;
-        }
-        // Animate to the new color.
-        final ObjectAnimator animation =
-                ObjectAnimator.ofInt(
-                        getWindow(),
-                        "statusBarColor",
-                        getWindow().getStatusBarColor(),
-                        desiredStatusBarColor);
-        animation.setDuration(ANIMATION_STATUS_BAR_COLOR_CHANGE_DURATION);
-        animation.setEvaluator(new ArgbEvaluator());
-        animation.start();
     }
 
     private int colorFromBitmap(Bitmap bitmap) {
@@ -2435,13 +2355,7 @@ public class QuickContactActivity extends ContactsActivity {
                 && !SharedPreferenceUtil.getHamburgerPromoTriggerActionHappenedBefore(this)) {
             SharedPreferenceUtil.setHamburgerPromoTriggerActionHappenedBefore(this);
         }
-        if (mScroller != null) {
-            if (!mIsExitAnimationInProgress) {
-                mScroller.scrollOffBottom();
-            }
-        } else {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
 
     @Override
@@ -2522,7 +2436,7 @@ public class QuickContactActivity extends ContactsActivity {
                         : getResources().getText(R.string.description_action_menu_remove_star);
         // Accessibility actions need to have an associated view. We can't access the MenuItem's
         // underlying view, so put this accessibility action on the root view.
-        mScroller.announceForAccessibility(accessibilityText);
+        getWindow().getDecorView().announceForAccessibility(accessibilityText);
     }
 
     private void shareContact() {

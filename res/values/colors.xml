@@ -59,7 +59,7 @@
     <color name="expanding_entry_card_button_text_color">@color/lunaris_primary</color>
 
     <!-- Background color for an ExpandingEntryCard -->
-    <color name="expanding_entry_card_background_color">@color/lunaris_surface_container_low</color>
+    <color name="expanding_entry_card_background_color">@color/lunaris_surface_container</color>
 
     <!-- Color of the margin for cards -->
     <color name="card_margin_color">@color/lunaris_surface</color>

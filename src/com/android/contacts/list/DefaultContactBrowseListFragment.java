@@ -1072,7 +1072,8 @@ public class DefaultContactBrowseListFragment extends ContactBrowseListFragment
 
         final boolean isSearchOrSelectionMode =
                 mActionBarAdapter.isSearchMode() || mActionBarAdapter.isSelectionMode();
-        makeMenuItemVisible(menu, R.id.menu_search, !isSearchOrSelectionMode);
+        makeMenuItemVisible(menu, R.id.menu_search, false);
+        makeMenuItemVisible(menu, R.id.menu_settings, !isSearchOrSelectionMode);
 
         final boolean showSelectedContactOptions =
                 mActionBarAdapter.isSelectionMode() && getSelectedContactIds().size() != 0;
@@ -1132,6 +1133,9 @@ public class DefaultContactBrowseListFragment extends ContactBrowseListFragment
             if (!mActionBarAdapter.isSelectionMode()) {
                 mActionBarAdapter.setSearchMode(true);
             }
+            return true;
+        } else if (id == R.id.menu_settings) {
+            mActivity.openSettings();
             return true;
         } else if (id == R.id.menu_share) {
             shareSelectedContacts();

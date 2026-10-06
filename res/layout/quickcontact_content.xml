@@ -13,14 +13,11 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<com.android.contacts.widget.TouchlessScrollView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:id="@+id/content_scroller"
-    android:background="@color/card_margin_color">
+    android:layout_height="wrap_content">
 
     <!-- All the cards should be inserted into this LinearLayout -->
     <LinearLayout
@@ -65,4 +62,4 @@
 
     </LinearLayout>
 
-</com.android.contacts.widget.TouchlessScrollView>
+</FrameLayout>

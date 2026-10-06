@@ -57,20 +57,6 @@ public class ViewUtil {
         return view.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
     }
 
-    private static final ViewOutlineProvider OVAL_OUTLINE_PROVIDER;
-    static {
-        if (CompatUtils.isLollipopCompatible()) {
-            OVAL_OUTLINE_PROVIDER = new ViewOutlineProvider() {
-                @Override
-                public void getOutline(View view, Outline outline) {
-                    outline.setOval(0, 0, view.getWidth(), view.getHeight());
-                }
-            };
-        } else {
-            OVAL_OUTLINE_PROVIDER = null;
-        }
-    }
-
     private static final ViewOutlineProvider RECT_OUTLINE_PROVIDER;
     static {
         if (CompatUtils.isLollipopCompatible()) {
@@ -98,13 +84,13 @@ public class ViewUtil {
     }
 
     /**
-     * Configures the floating action button, clipping it to a circle and setting its translation z.
+     * Configures the floating action button, clipping it to its background and setting its translation z.
      * @param view The float action button's view.
      * @param res The resources file.
      */
     public static void setupFloatingActionButton(View view, Resources res) {
         if (CompatUtils.isLollipopCompatible()) {
-            view.setOutlineProvider(OVAL_OUTLINE_PROVIDER);
+            view.setOutlineProvider(ViewOutlineProvider.BACKGROUND);
             view.setTranslationZ(
                     res.getDimensionPixelSize(R.dimen.floating_action_button_translation_z));
         }

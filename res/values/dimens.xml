@@ -118,7 +118,7 @@
     <dimen name="contact_filter_header_min_height">24dip</dimen>
 
     <!-- Margins for ExpandingEntryCardView -->
-    <dimen name="expanding_entry_card_marginStartEnd">8dp</dimen>
+    <dimen name="expanding_entry_card_marginStartEnd">16dp</dimen>
     <dimen name="expanding_entry_card_marginBottom">12dp</dimen>
 
     <!-- Top margin for the communication card, used to add space from header. -->
@@ -160,7 +160,7 @@
     <dimen name="expanding_entry_card_item_icon_margin_right">12dp</dimen>
     <dimen name="expanding_entry_card_item_header_only_margin_top">6dp</dimen>
 
-    <dimen name="expanding_entry_card_card_corner_radius">28dp</dimen>
+    <dimen name="expanding_entry_card_card_corner_radius">24dp</dimen>
     <dimen name="expanding_entry_card_header_margin_bottom">2dp</dimen>
     <!-- The top margin when the sub header and text views are both gone -->
     <dimen name="expanding_entry_card_item_header_only_margin_bottom">2dp</dimen>
@@ -184,9 +184,9 @@
     <dimen name="expanding_entry_card_item_icon_height">24dp</dimen>
     <dimen name="expanding_entry_card_item_icon_width">24dp</dimen>
 
-    <dimen name="contact_browser_list_item_padding_top_or_bottom">7dp</dimen>
+    <dimen name="contact_browser_list_item_padding_top_or_bottom">12dp</dimen>
 
-    <dimen name="contact_browser_list_item_height">56dp</dimen>
+    <dimen name="contact_browser_list_item_height">76dp</dimen>
 
     <!-- Default activity margins, per the Android Material Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
@@ -302,8 +302,8 @@
     <dimen name="detail_network_icon_size">40dp</dimen>
 
     <!-- contact browser list margins -->
-    <dimen name="contact_browser_list_item_text_size">16sp</dimen>
-    <dimen name="contact_browser_list_item_photo_size">40dp</dimen>
+    <dimen name="contact_browser_list_item_text_size">17sp</dimen>
+    <dimen name="contact_browser_list_item_photo_size">48dp</dimen>
     <dimen name="contact_browser_list_item_gap_between_image_and_text">15dp</dimen>
     <dimen name="contact_browser_list_item_gap_between_indexer_and_image">16dp</dimen>
 
@@ -315,7 +315,7 @@
     <!-- Width of the floating action button -->
     <dimen name="floating_action_button_width">56dp</dimen>
     <!-- Z translation of the floating action button -->
-    <dimen name="floating_action_button_translation_z">8dp</dimen>
+    <dimen name="floating_action_button_translation_z">3dp</dimen>
     <!-- Padding to be applied to the bottom of lists to make space for the floating action
          button -->
     <dimen name="floating_action_button_list_bottom_padding">88dp</dimen>
@@ -328,7 +328,7 @@
     <dimen name="tab_elevation">2dp</dimen>
 
     <!-- Size of the icon (voice search, back arrow) in the search box. -->
-    <dimen name="search_box_icon_size">56dp</dimen>
+    <dimen name="search_box_icon_size">48dp</dimen>
     <!-- Size of the close icon.-->
     <dimen name="search_box_close_icon_size">56dp</dimen>
     <!-- Padding around the close button. It's visible size without padding is 24dp. -->

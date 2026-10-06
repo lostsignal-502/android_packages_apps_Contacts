@@ -17,7 +17,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/search_box_expanded"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="48dp"
+    android:layout_gravity="center_vertical"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="16dp"
+    android:paddingStart="4dp"
+    android:paddingEnd="8dp"
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:visibility="gone" >
@@ -30,7 +35,7 @@
         android:src="@drawable/quantum_ic_arrow_back_vd_theme_24"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_menu_back_from_search"
-        android:tint="@color/actionbar_background_color" />
+        android:tint="@color/lunaris_on_surface_variant" />
 
     <android.widget.AutoCompleteTextView
         android:id="@+id/search_view"

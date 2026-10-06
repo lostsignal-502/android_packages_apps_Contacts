@@ -23,20 +23,24 @@
     </style>
 
     <style name="Theme.QuickContact" parent="@style/PeopleTheme">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/background_primary</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:listViewStyle">@style/ListViewStyle</item>
-        <!-- We need to use a light ripple behind ActionBar items in order for them to
-             be visible when using some of the darker ActionBar tints -->
-        <item name="android:actionBarItemBackground">
-            @drawable/item_background_material_borderless_dark
-        </item>
+        <item name="android:actionButtonStyle">@style/LunarisFrameworkActionButton</item>
+        <item name="android:actionOverflowButtonStyle">@style/LunarisFrameworkOverflowButton</item>
+    </style>
+
+
+    <style name="LunarisFrameworkActionButton" parent="@android:style/Widget.Material.ActionButton">
+        <item name="android:background">@drawable/lunaris_round_button</item>
+        <item name="android:minWidth">56dp</item>
+    </style>
+
+    <style name="LunarisFrameworkOverflowButton" parent="@android:style/Widget.Material.ActionButton.Overflow">
+        <item name="android:background">@drawable/lunaris_round_button</item>
+        <item name="android:src">@drawable/quantum_ic_more_vert_vd_theme_24</item>
+        <item name="android:tint">@color/actionbar_icon_color</item>
+        <item name="android:minWidth">56dp</item>
     </style>
 
     <style name="PeopleTheme" parent="@style/Lunaris.Base.Framework">
@@ -205,8 +209,11 @@
             </style>
 
     <style name="ContactsActionButtonStyle" parent="Widget.AppCompat.ActionButton">
+        <item name="android:minWidth">56dp</item>
         <item name="android:paddingStart">16dp</item>
         <item name="android:paddingEnd">16dp</item>
+        <item name="android:background">@drawable/lunaris_round_button</item>
+        <item name="android:tint">@color/actionbar_icon_color</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -288,12 +295,17 @@
     <style name="ContactsActionBarOverflowQP"
         parent="Widget.AppCompat.Light.ActionButton.Overflow">
         <item name="android:src">@drawable/quantum_ic_more_vert_vd_theme_24</item>
-        <item name="android:tint">@color/action_bar_button_text_color</item>
+        <item name="android:tint">@color/actionbar_icon_color</item>
+        <item name="android:background">@drawable/lunaris_round_button</item>
+        <item name="android:minWidth">56dp</item>
     </style>
 
     <!-- Toolbar navigation button. -->
     <style name="ContactToolbarNavigationButtonStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="android:tint">@color/action_bar_button_text_color</item>
+        <item name="android:tint">@color/actionbar_icon_color</item>
+        <item name="android:background">@drawable/lunaris_round_button</item>
+        <item name="android:minWidth">56dp</item>
+        <item name="android:layout_marginStart">4dp</item>
     </style>
 
     <style name="ContactPickerTheme" parent="PeopleActivityTheme">
@@ -430,10 +442,10 @@
     </style>
 
     <style name="SectionHeaderStyle" parent="@android:style/TextAppearance.Large">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/section_header_text_color</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="DirectoryHeaderStyle" parent="@android:style/TextAppearance.Small">

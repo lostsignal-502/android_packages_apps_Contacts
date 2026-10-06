@@ -18,6 +18,7 @@ package com.android.contacts.list;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.database.CharArrayBuffer;
 import android.database.Cursor;
@@ -26,6 +27,8 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
@@ -251,6 +254,11 @@ public class ContactListItemView extends ViewGroup
     private boolean mAdjustSelectionBoundsEnabled = true;
 
     private Rect mBoundsWithoutHeader = new Rect();
+
+    private GradientDrawable mCardShape;
+    private RippleDrawable mCardDrawable;
+    private boolean mCardFirst = true;
+    private boolean mCardLast = true;
 
     /** A helper used to highlight a prefix in a text field. */
     private final TextHighlighter mTextHighlighter;
@@ -636,6 +644,17 @@ public class ContactListItemView extends ViewGroup
             }
         }
 
+        final int cardMargin = getResources().getDimensionPixelSize(R.dimen.lunaris_page_margin);
+        if (!mIsSectionHeaderEnabled) {
+            if (isLayoutRtl) {
+                rightBound -= cardMargin;
+            } else {
+                leftBound += cardMargin;
+            }
+        }
+        layoutCard(isLayoutRtl ? cardMargin : leftBound,
+                isLayoutRtl ? rightBound : width - cardMargin, height);
+
         mBoundsWithoutHeader.set(left + leftBound, topBound, left + rightBound, bottomBound);
         mLeftOffset = left + leftBound;
         mRightOffset = left + rightBound;
@@ -944,9 +963,54 @@ public class ContactListItemView extends ViewGroup
         return params;
     }
 
+    public void setCardPosition(boolean first, boolean last) {
+        if (mCardFirst != first || mCardLast != last) {
+            mCardFirst = first;
+            mCardLast = last;
+            requestLayout();
+        }
+    }
+
+    private RippleDrawable getCardDrawable() {
+        if (mCardDrawable == null) {
+            mCardShape = new GradientDrawable();
+            mCardShape.setColor(getContext().getColor(R.color.lunaris_surface_container_low));
+            mCardDrawable = new RippleDrawable(ColorStateList.valueOf(
+                    getContext().getColor(R.color.control_highlight_color)), mCardShape, null);
+            mCardDrawable.setCallback(this);
+            mCardDrawable.setState(getDrawableState());
+        }
+        return mCardDrawable;
+    }
+
+    private void layoutCard(int left, int right, int height) {
+        final Resources res = getResources();
+        final float outer = res.getDimension(R.dimen.lunaris_card_radius);
+        final float inner = res.getDimension(R.dimen.lunaris_card_inner_radius);
+        final int gap = res.getDimensionPixelSize(R.dimen.lunaris_card_gap) / 2;
+        final int sectionGap = res.getDimensionPixelSize(R.dimen.lunaris_card_section_gap);
+        final float top = mCardFirst ? outer : inner;
+        final float bottom = mCardLast ? outer : inner;
+        final RippleDrawable card = getCardDrawable();
+        mCardShape.setCornerRadii(new float[] {top, top, top, top, bottom, bottom, bottom, bottom});
+        card.setBounds(left, mCardFirst ? sectionGap : gap, right,
+                height - (mCardLast ? sectionGap : gap));
+    }
+
+    @Override
+    public void drawableHotspotChanged(float x, float y) {
+        super.drawableHotspotChanged(x, y);
+        if (mCardDrawable != null) {
+            mCardDrawable.setHotspot(x, y);
+        }
+    }
+
     @Override
     protected void drawableStateChanged() {
         super.drawableStateChanged();
+        if (mCardDrawable != null) {
+            mCardDrawable.setState(getDrawableState());
+        }
         if (mActivatedStateSupported) {
             mActivatedBackgroundDrawable.setState(getDrawableState());
         }
@@ -954,12 +1018,16 @@ public class ContactListItemView extends ViewGroup
 
     @Override
     protected boolean verifyDrawable(Drawable who) {
-        return who == mActivatedBackgroundDrawable || super.verifyDrawable(who);
+        return who == mActivatedBackgroundDrawable || who == mCardDrawable
+                || super.verifyDrawable(who);
     }
 
     @Override
     public void jumpDrawablesToCurrentState() {
         super.jumpDrawablesToCurrentState();
+        if (mCardDrawable != null) {
+            mCardDrawable.jumpToCurrentState();
+        }
         if (mActivatedStateSupported) {
             mActivatedBackgroundDrawable.jumpToCurrentState();
         }
@@ -967,6 +1035,7 @@ public class ContactListItemView extends ViewGroup
 
     @Override
     public void dispatchDraw(Canvas canvas) {
+        getCardDrawable().draw(canvas);
         if (mActivatedStateSupported && isActivated()) {
             mActivatedBackgroundDrawable.draw(canvas);
         }

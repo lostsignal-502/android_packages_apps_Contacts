@@ -22,7 +22,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:background="#00000000"
-    android:elevation="@dimen/tab_elevation"
+    android:elevation="0dp"
     android:layout_height="wrap_content" >
 
     <FrameLayout
@@ -36,7 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:id="@+id/toolbar"
-            android:padding="0dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             style="@style/ContactsToolbarStyle" />
 
     </FrameLayout>
