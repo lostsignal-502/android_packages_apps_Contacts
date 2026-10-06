@@ -39,7 +39,11 @@
         </item>
     </style>
 
-    <style name="PeopleTheme" parent="@android:style/Theme.Material.Light.DarkActionBar">
+    <style name="PeopleTheme" parent="@style/Lunaris.Base.Framework">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">@bool/lunaris_light_bars</item>
+        <item name="android:windowLightNavigationBar">@bool/lunaris_light_bars</item>
         <item name="android:actionBarStyle">@style/ContactsActionBarStyle</item>
         <!-- Style for the overflow button in the actionbar. -->
         <item name="android:actionOverflowButtonStyle">@style/ContactsActionBarOverflowQP</item>
@@ -49,9 +53,9 @@
         <item name="android:icon">@android:color/transparent</item>
         <item name="android:listViewStyle">@style/ListViewStyle</item>
         <item name="android:windowBackground">@color/background_primary</item>
-        <item name="android:colorPrimaryDark">@color/primary_color_dark</item>
-        <item name="android:colorPrimary">@color/primary_color</item>
-        <item name="android:colorAccent">@color/primary_color</item>
+        <item name="android:colorPrimaryDark">@color/lunaris_surface</item>
+        <item name="android:colorPrimary">@color/lunaris_primary</item>
+        <item name="android:colorAccent">@color/lunaris_primary</item>
         <item name="android:alertDialogTheme">@style/ContactsAlertDialogTheme</item>
         <item name="list_item_height">@dimen/contact_browser_list_item_height</item>
         <item name="list_section_header_height">24dip</item>
@@ -89,20 +93,47 @@
         <item name="android:popupMenuStyle">@style/PopupMenuStyle</item>
     </style>
 
-    <style name="LaunchScreenTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="LaunchScreenTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowBackground">@drawable/quantum_launchscreen_contacts</item>
         <item name="colorPrimaryDark">@color/primary_color_dark</item>
         <item name="colorPrimary">@color/primary_color</item>
     </style>
 
     <style name="PeopleActivityTheme" parent="@style/PeopleThemeAppCompat">
-        <item name="android:forceDarkAllowed">true</item>
+        <item name="android:forceDarkAllowed">false</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:listSelector">?android:attr/listChoiceBackgroundIndicator</item>
     </style>
 
-    <style name="PeopleThemeAppCompat" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="PeopleThemeAppCompat" parent="Theme.Material3.DayNight">
+        <item name="colorOnPrimary">@color/lunaris_on_primary</item>
+        <item name="colorPrimaryContainer">@color/lunaris_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/lunaris_on_primary_container</item>
+        <item name="colorSecondary">@color/lunaris_secondary</item>
+        <item name="colorOnSecondary">@color/lunaris_on_secondary</item>
+        <item name="colorSecondaryContainer">@color/lunaris_secondary_container</item>
+        <item name="colorOnSecondaryContainer">@color/lunaris_on_secondary_container</item>
+        <item name="colorTertiaryContainer">@color/lunaris_tertiary_container</item>
+        <item name="colorOnTertiaryContainer">@color/lunaris_on_tertiary_container</item>
+        <item name="colorSurface">@color/lunaris_surface</item>
+        <item name="colorOnSurface">@color/lunaris_on_surface</item>
+        <item name="colorSurfaceVariant">@color/lunaris_surface_container_highest</item>
+        <item name="colorOnSurfaceVariant">@color/lunaris_on_surface_variant</item>
+        <item name="colorOutline">@color/lunaris_outline</item>
+        <item name="colorError">@color/lunaris_error</item>
+        <item name="colorOnError">@color/lunaris_on_error</item>
+        <item name="colorErrorContainer">@color/lunaris_error_container</item>
+        <item name="colorOnErrorContainer">@color/lunaris_on_error_container</item>
+        <item name="colorSurfaceInverse">@color/lunaris_inverse_surface</item>
+        <item name="colorOnSurfaceInverse">@color/lunaris_inverse_on_surface</item>
+        <item name="android:colorBackground">@color/lunaris_surface</item>
+        <item name="colorOnBackground">@color/lunaris_on_surface</item>
+        <item name="android:colorBackgroundFloating">@color/lunaris_surface_container_high</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">@bool/lunaris_light_bars</item>
+        <item name="android:windowLightNavigationBar">@bool/lunaris_light_bars</item>
         <!-- Styles that require AppCompat compatibility, remember to update both sets -->
         <item name="android:actionBarStyle">@style/ContactsActionBarStyleAppCompat</item>
         <item name="actionBarStyle">@style/ContactsActionBarStyleAppCompat</item>
@@ -118,12 +149,12 @@
         <item name="android:icon">@android:color/transparent</item>
         <item name="android:listViewStyle">@style/ListViewStyle</item>
         <item name="android:windowBackground">@color/background_primary</item>
-        <item name="android:colorPrimaryDark">@color/primary_color_dark</item>
-        <item name="colorPrimaryDark">@color/primary_color_dark</item>
-        <item name="android:colorPrimary">@color/primary_color</item>
-        <item name="colorPrimary">@color/primary_color</item>
-        <item name="android:colorAccent">@color/primary_color</item>
-        <item name="colorAccent">@color/primary_color</item>
+        <item name="android:colorPrimaryDark">@color/lunaris_surface</item>
+        <item name="colorPrimaryDark">@color/lunaris_surface</item>
+        <item name="android:colorPrimary">@color/lunaris_primary</item>
+        <item name="colorPrimary">@color/lunaris_primary</item>
+        <item name="android:colorAccent">@color/lunaris_primary</item>
+        <item name="colorAccent">@color/lunaris_primary</item>
         <item name="android:alertDialogTheme">@style/ContactsAlertDialogThemeAppCompat</item>
         <item name="alertDialogTheme">@style/ContactsAlertDialogThemeAppCompat</item>
         <item name="list_item_height">@dimen/contact_browser_list_item_height</item>
@@ -168,12 +199,10 @@
     </style>
 
     <style name="PopupMenuStyle" parent="@android:style/Widget.PopupMenu">
-        <item name="android:popupBackground">@android:color/white</item>
-    </style>
+            </style>
 
     <style name="PopupMenuStyleAppCompat" parent="Widget.AppCompat.PopupMenu">
-        <item name="android:popupBackground">@android:color/white</item>
-    </style>
+            </style>
 
     <style name="ContactsActionButtonStyle" parent="Widget.AppCompat.ActionButton">
         <item name="android:paddingStart">16dp</item>
@@ -182,8 +211,8 @@
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">false</item>
-        <item name="color">@android:color/white</item>
-        <item name="android:color">@android:color/white</item>
+        <item name="color">@color/actionbar_icon_color</item>
+        <item name="android:color">@color/actionbar_icon_color</item>
     </style>
 
     <!-- Use the non-light style so that the up button & icons aren't black. If we use the
@@ -282,14 +311,14 @@
     <style name="NonPhoneActivityTheme" parent="@android:Theme.Translucent.NoTitleBar">
     </style>
 
-    <style name="NonPhoneDialogTheme" parent="@android:Theme.Material.Light.Dialog">
+    <style name="NonPhoneDialogTheme" parent="@style/Lunaris.Base.Framework.Dialog">
     </style>
 
-    <style name="ConfirmAddDetailDialogTheme" parent="@android:style/Theme.Material.Light.Dialog.MinWidth">
+    <style name="ConfirmAddDetailDialogTheme" parent="@style/Lunaris.Base.Framework.Dialog">
         <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
-    <style name="SelectableItem" parent="@android:style/Theme.Material.Light">
+    <style name="SelectableItem" parent="@style/Lunaris.Base.Framework">
         <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
@@ -322,21 +351,20 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">#363636</item>
+        <item name="android:textColor">@color/primary_text_color</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <!-- Inherit from Theme.Material.Light.Dialog instead of Theme.Material.Light.Dialog.Alert
         since the Alert dialog is private. They are identical anyway. -->
-    <style name="ContactsAlertDialogTheme" parent="@android:style/Theme.Material.Light.Dialog">
-        <item name="android:colorAccent">@color/primary_color</item>
+    <style name="ContactsAlertDialogTheme" parent="@style/Lunaris.Base.Framework.Dialog">
+        <item name="android:colorAccent">@color/lunaris_primary</item>
         <item name="android:windowBackground">@drawable/dialog_background</item>
     </style>
 
-    <style name="ContactsAlertDialogThemeAppCompat" parent="Theme.AppCompat.Light.Dialog.MinWidth">
+    <style name="ContactsAlertDialogThemeAppCompat" parent="Theme.Material3.DayNight.Dialog.Alert">
         <item name="android:colorAccent">@color/primary_color</item>
         <item name="colorAccent">@color/primary_color</item>
-        <item name="android:windowBackground">@drawable/dialog_background</item>
     </style>
 
     <style name="EditKindIconStyle">
@@ -369,7 +397,7 @@
 
     <style name="AccountTypeNameStyle">
         <item name="android:textSize">10sp</item>
-        <item name="android:textColor">#363636</item>
+        <item name="android:textColor">@color/primary_text_color</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
@@ -380,7 +408,7 @@
     <!-- Text style for empty states (no account view, empty label). -->
     <style name="EmptyStateTextStyle">
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">#000000</item>
+        <item name="android:textColor">@color/primary_text_color</item>
         <item name="android:alpha">0.54</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
@@ -437,15 +465,15 @@ background and text color. See also android:style/Widget.Holo.TextView.ListSepar
 
     <style name="TextAppearanceMedium" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#000000</item>
+        <item name="android:textColor">@color/primary_text_color</item>
     </style>
 
     <style name="TextAppearanceSmall" parent="@android:style/TextAppearance.Small">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">#737373</item>
+        <item name="android:textColor">@color/secondary_text_color</item>
     </style>
 
-    <style name="ListViewStyle" parent="@android:style/Widget.Material.Light.ListView">
+    <style name="ListViewStyle" parent="@android:style/Widget.Material.ListView">
         <item name="android:overScrollMode">always</item>
     </style>
 
@@ -461,7 +489,7 @@ background and text color. See also android:style/Widget.Holo.TextView.ListSepar
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="BackgroundOnlyTheme" parent="@android:style/Theme.Material.Light">
+    <style name="BackgroundOnlyTheme" parent="@style/Lunaris.Base.Framework">
         <item name="android:windowBackground">@null</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowAnimationStyle">@null</item>
@@ -472,7 +500,7 @@ background and text color. See also android:style/Widget.Holo.TextView.ListSepar
         <item name="android:windowIsFloating">true</item>
     </style>
 
-    <style name="Theme.CallSubjectDialogTheme" parent="@android:style/Theme.Material.Light.Dialog">
+    <style name="Theme.CallSubjectDialogTheme" parent="@style/Lunaris.Base.Framework.Dialog">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
 
