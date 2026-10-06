@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 Lunaris-AOSP
+     SPDX-License-Identifier: Apache-2.0
+-->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetLeft="@dimen/lunaris_page_margin"
+    android:insetTop="6dp"
+    android:insetRight="@dimen/lunaris_page_margin"
+    android:insetBottom="6dp">
+    <shape android:shape="rectangle">
+        <solid android:color="@color/lunaris_surface_bright" />
+        <corners android:radius="@dimen/lunaris_card_radius" />
+    </shape>
+</inset>

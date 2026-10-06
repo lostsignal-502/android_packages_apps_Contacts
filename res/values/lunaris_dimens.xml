@@ -19,4 +19,5 @@
     <dimen name="lunaris_quickcontact_photo_size">168dp</dimen>
     <dimen name="lunaris_blur_behind_radius">16dp</dimen>
     <dimen name="lunaris_drawer_blur_radius">6dp</dimen>
+    <dimen name="lunaris_editor_photo_size">136dp</dimen>
 </resources>

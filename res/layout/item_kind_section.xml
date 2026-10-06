@@ -21,7 +21,11 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="@drawable/lunaris_editor_card"
+        android:orientation="horizontal"
+        android:paddingTop="18dp"
+        android:paddingEnd="28dp"
+        android:paddingBottom="18dp">
 
     <ImageView
             android:id="@+id/kind_icon"

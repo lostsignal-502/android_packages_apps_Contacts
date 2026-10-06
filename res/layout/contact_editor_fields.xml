@@ -39,11 +39,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/editor_min_line_item_height"
-                android:paddingStart="72dp"
+                android:paddingStart="88dp"
                 android:gravity="center_vertical"
                 android:text="@string/editor_more_fields"
                 android:textAlignment="viewStart"
-                android:textColor="?android:attr/colorAccent"
+                android:textColor="@color/lunaris_primary"
+                android:textStyle="bold"
                 android:textSize="@dimen/expanding_entry_card_title_text_size"/>
 
     </LinearLayout>

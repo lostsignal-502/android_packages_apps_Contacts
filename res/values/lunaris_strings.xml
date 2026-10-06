@@ -7,4 +7,8 @@
     <string name="lunaris_create_contact">Create contact</string>
     <string name="lunaris_quick_action_message">Message</string>
     <string name="lunaris_quick_action_video">Video</string>
+    <string name="lunaris_settings_your_info">Your info</string>
+    <string name="lunaris_settings_display">Display</string>
+    <string name="lunaris_settings_manage">Manage</string>
+    <string name="lunaris_settings_about">About</string>
 </resources>

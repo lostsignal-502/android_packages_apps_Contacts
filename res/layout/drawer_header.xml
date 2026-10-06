@@ -21,7 +21,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:orientation="vertical"
-    android:background="@color/navigation_drawer_background_color">
+    android:background="@android:color/transparent">
 
     <include layout="@layout/drawer_horizontal_divider" />
 

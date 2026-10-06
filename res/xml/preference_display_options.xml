@@ -15,63 +15,84 @@
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <Preference
-        android:icon="@null"
-        android:key="myInfo"
-        android:title="@string/settings_my_info_title"/>
 
-    <Preference
-        android:icon="@null"
-        android:key="accounts"
-        android:title="@string/settings_accounts">
-    </Preference>
+    <PreferenceCategory
+        android:key="category_your_info"
+        android:title="@string/lunaris_settings_your_info">
 
-    <Preference
-        android:icon="@null"
-        android:key="defaultAccount"
-        android:title="@string/default_editor_account" />
+        <Preference
+            android:icon="@drawable/lunaris_ic_person"
+            android:key="myInfo"
+            android:title="@string/settings_my_info_title"/>
 
-    <Preference
-        android:icon="@null"
-        android:key="customContactsFilter"
-        android:title="@string/menu_contacts_filter"/>
+        <Preference
+            android:icon="@drawable/lunaris_ic_accounts"
+            android:key="accounts"
+            android:title="@string/settings_accounts">
+        </Preference>
 
-    <com.android.contacts.preference.SortOrderPreference
-        android:icon="@null"
-        android:key="sortOrder"
-        android:title="@string/display_options_sort_list_by"
-        android:dialogTitle="@string/display_options_sort_list_by" />
+        <Preference
+            android:icon="@drawable/lunaris_ic_default_account"
+            android:key="defaultAccount"
+            android:title="@string/default_editor_account" />
+    </PreferenceCategory>
 
-    <com.android.contacts.preference.DisplayOrderPreference
-        android:icon="@null"
-        android:key="displayOrder"
-        android:title="@string/display_options_view_names_as"
-        android:dialogTitle="@string/display_options_view_names_as" />
+    <PreferenceCategory
+        android:key="category_display"
+        android:title="@string/lunaris_settings_display">
 
-    <com.android.contacts.preference.PhoneticNameDisplayPreference
-        android:icon="@null"
-        android:key="phoneticNameDisplay"
-        android:title="@string/display_options_phonetic_name_fields"
-        android:dialogTitle="@string/display_options_phonetic_name_fields"/>
+        <Preference
+            android:icon="@drawable/lunaris_ic_filter"
+            android:key="customContactsFilter"
+            android:title="@string/menu_contacts_filter"/>
 
-    <Preference
-        android:icon="@null"
-        android:key="import"
-        android:title="@string/menu_import"/>
+        <com.android.contacts.preference.SortOrderPreference
+            android:icon="@drawable/lunaris_ic_sort"
+            android:key="sortOrder"
+            android:title="@string/display_options_sort_list_by"
+            android:dialogTitle="@string/display_options_sort_list_by" />
 
-    <Preference
-        android:icon="@null"
-        android:key="export"
-        android:title="@string/menu_export"/>
+        <com.android.contacts.preference.DisplayOrderPreference
+            android:icon="@drawable/lunaris_ic_name_format"
+            android:key="displayOrder"
+            android:title="@string/display_options_view_names_as"
+            android:dialogTitle="@string/display_options_view_names_as" />
 
-    <Preference
-        android:icon="@null"
-        android:key="blockedNumbers"
-        android:title="@string/menu_blocked_numbers" />
+        <com.android.contacts.preference.PhoneticNameDisplayPreference
+            android:icon="@drawable/lunaris_ic_phonetic"
+            android:key="phoneticNameDisplay"
+            android:title="@string/display_options_phonetic_name_fields"
+            android:dialogTitle="@string/display_options_phonetic_name_fields"/>
+    </PreferenceCategory>
 
-    <Preference
-        android:icon="@null"
-        android:key="about"
-        android:title="@string/setting_about"
-        android:order="@integer/about_contacts_order_number"/>
+    <PreferenceCategory
+        android:key="category_manage"
+        android:title="@string/lunaris_settings_manage">
+
+        <Preference
+            android:icon="@drawable/lunaris_ic_import"
+            android:key="import"
+            android:title="@string/menu_import"/>
+
+        <Preference
+            android:icon="@drawable/lunaris_ic_export"
+            android:key="export"
+            android:title="@string/menu_export"/>
+
+        <Preference
+            android:icon="@drawable/lunaris_ic_block"
+            android:key="blockedNumbers"
+            android:title="@string/menu_blocked_numbers" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="category_about"
+        android:title="@string/lunaris_settings_about">
+
+        <Preference
+            android:icon="@drawable/lunaris_ic_info"
+            android:key="about"
+            android:title="@string/setting_about"
+            android:order="@integer/about_contacts_order_number"/>
+    </PreferenceCategory>
 </PreferenceScreen>

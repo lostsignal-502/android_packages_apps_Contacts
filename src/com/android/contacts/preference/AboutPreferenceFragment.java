@@ -25,6 +25,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.contacts.R;
@@ -40,6 +41,12 @@ public class AboutPreferenceFragment extends PreferenceFragment {
 
     public static AboutPreferenceFragment newInstance() {
         return new AboutPreferenceFragment();
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        LunarisPreferenceHeader.install(getActivity(), view, getString(R.string.setting_about));
     }
 
     @Override

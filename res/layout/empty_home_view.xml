@@ -1,35 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 Lunaris-AOSP
+     SPDX-License-Identifier: Apache-2.0
+-->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/empty_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/empty_state_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingStart="32dp"
+    android:paddingEnd="32dp"
+    android:paddingBottom="96dp"
     android:visibility="gone">
 
     <ImageView
         android:id="@+id/empty_home_image"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/empty_view_image_height"
-        android:scaleType="centerInside"
-        android:adjustViewBounds="true"
-        android:src="@drawable/home_empty"/>
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:background="@drawable/lunaris_empty_tile"
+        android:importantForAccessibility="no"
+        android:padding="28dp"
+        android:src="@drawable/lunaris_ic_person"
+        android:tint="@color/lunaris_on_primary_container" />
 
     <TextView
         android:id="@+id/empty_home_view_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="@dimen/empty_home_view_text_padding_top"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
         android:text="@string/emptyMainList"
-        style="@style/EmptyStateTextStyle"/>
+        style="@style/EmptyStateTextStyle" />
 
     <Button
         android:id="@+id/add_contact_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
         android:text="@string/menu_addToGroup"
-        style="@style/AddContactsButtonStyle"/>
+        style="@style/AddContactsButtonStyle" />
 </LinearLayout>

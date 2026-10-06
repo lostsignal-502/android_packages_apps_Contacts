@@ -32,6 +32,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceGroup;
 import android.provider.BlockedNumberContract;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.DisplayNameSources;
@@ -45,7 +46,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ListView;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -209,10 +209,8 @@ public class DisplayOptionsPreferenceFragment extends PreferenceFragment
                         mSaveServiceListener,
                         new IntentFilter(SimImportService.BROADCAST_SIM_IMPORT_COMPLETE));
 
-        ListView lv = view.findViewById(android.R.id.list);
-        if (lv != null) {
-            lv.setDivider(null);
-        }
+        LunarisPreferenceHeader.install(getActivity(), view,
+                getString(R.string.activity_title_settings));
     }
 
     @Override
@@ -293,24 +291,36 @@ public class DisplayOptionsPreferenceFragment extends PreferenceFragment
         mMyInfoPreference.setOnPreferenceClickListener(this);
     }
 
+    private void removePreference(String key) {
+        final Preference preference = findPreference(key);
+        if (preference == null) {
+            return;
+        }
+        final PreferenceGroup parent = preference.getParent();
+        parent.removePreference(preference);
+        if (parent.getPreferenceCount() == 0 && parent != getPreferenceScreen()) {
+            getPreferenceScreen().removePreference(parent);
+        }
+    }
+
     private void removeUnsupportedPreferences() {
         // Disable sort order for CJK locales where it is not supported
         final Resources resources = getResources();
         if (!resources.getBoolean(R.bool.config_sort_order_user_changeable)) {
-            getPreferenceScreen().removePreference(findPreference(KEY_SORT_ORDER));
+            removePreference(KEY_SORT_ORDER);
         }
 
         if (!resources.getBoolean(R.bool.config_phonetic_name_display_user_changeable)) {
-            getPreferenceScreen().removePreference(findPreference(KEY_PHONETIC_NAME_DISPLAY));
+            removePreference(KEY_PHONETIC_NAME_DISPLAY);
         }
 
         if (HelpUtils.isHelpAndFeedbackAvailable()) {
-            getPreferenceScreen().removePreference(findPreference(KEY_ABOUT));
+            removePreference(KEY_ABOUT);
         }
 
         // Disable display order for CJK locales as well
         if (!resources.getBoolean(R.bool.config_display_order_user_changeable)) {
-            getPreferenceScreen().removePreference(findPreference(KEY_DISPLAY_ORDER));
+            removePreference(KEY_DISPLAY_ORDER);
         }
 
         final boolean isPhone =
@@ -322,11 +332,11 @@ public class DisplayOptionsPreferenceFragment extends PreferenceFragment
                         && ContactsUtils.FLAG_N_FEATURE
                         && BlockedNumberContract.canCurrentUserBlockNumbers(getContext());
         if (!showBlockedNumbers) {
-            getPreferenceScreen().removePreference(findPreference(KEY_BLOCKED_NUMBERS));
+            removePreference(KEY_BLOCKED_NUMBERS);
         }
 
         if (!mAreContactsAvailable) {
-            getPreferenceScreen().removePreference(findPreference(KEY_EXPORT));
+            removePreference(KEY_EXPORT);
         }
     }
 

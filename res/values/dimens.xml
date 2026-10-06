@@ -30,8 +30,6 @@
     <dimen name="quickcontact_title_initial_margin">16dp</dimen>
     <!-- When QC is uncollapsed, the title has this much margin on its bottom -->
     <dimen name="quickcontact_title_initial_bottom_margin">8dp</dimen>
-    <!-- The ratio of width:height for the contact's photo in landscape -->
-    <item name="quickcontact_landscape_photo_ratio" type="dimen" format="float">0.7</item>
     <!-- How far QuickContacts can be dragged and released from the top of the window before we dismiss it. -->
     <dimen name="quickcontact_dismiss_distance_on_release">40dp</dimen>
     <!-- How far QuickContacts can be dragged from the top of the window before we dismiss it. -->
@@ -50,8 +48,6 @@
     <!-- Top margin for "Saving to" account header text field. -->
     <dimen name="editor_account_header_top_margin">3dp</dimen>
 
-    <!-- The ratio of width:height (360:184) for the editor contact photo in portrait -->
-    <item name="editor_portrait_photo_ratio" type="dimen" format="float">1.96</item>
 
     <!-- Padding of the rounded plus/minus/expand/collapse buttons in the editor  -->
     <dimen name="editor_round_button_padding_left">16dip</dimen>
@@ -197,17 +193,9 @@
     <dimen name="nav_new_badge_horizontal_pad">5dp</dimen>
     <dimen name="nav_new_badge_font_size">11sp</dimen>
 
-    <!-- Top padding for the image for empty group view-->
-    <dimen name="empty_group_view_image_padding_top">0dp</dimen>
 
-    <!-- Height for the image for empty group and main view-->
-    <dimen name="empty_view_image_height">150dp</dimen>
 
-    <!-- Top padding for the text for empty group view-->
-    <dimen name="empty_group_view_text_padding_top">14dp</dimen>
 
-    <!-- Top padding for the text for empty account view -->
-    <dimen name="empty_account_view_text_padding_top">24dp</dimen>
 
     <!-- End margin of edit group title -->
     <dimen name="edit_group_end_margin">72dp</dimen>
@@ -221,14 +209,8 @@
     <!-- Elevation of contact list header -->
     <dimen name="contact_list_header_elevation">2dp</dimen>
 
-    <!-- Gap b/w image view and top of the screen in empty main view -->
-    <dimen name="empty_home_view_image_offset">210dp</dimen>
 
-    <!-- Top padding for the text for empty main view -->
-    <dimen name="empty_home_view_text_padding_top">32dp</dimen>
 
-    <!-- Extra margin above image in empty account view -->
-    <dimen name="empty_account_view_image_offset">30dp</dimen>
 
     <!-- Margin offset b/w the image top and app bar bottom for no account empty view -->
     <dimen name="contacts_no_account_empty_image_offset">230dp</dimen>
@@ -370,13 +352,13 @@
     <!-- The width of the drawer -->
     <dimen name="drawer_width">320dp</dimen>
     <!-- Minimum height of items in navigation drawer -->
-    <dimen name="drawer_item_fixed_height">48dp</dimen>
+    <dimen name="drawer_item_fixed_height">56dp</dimen>
     <!-- Side padding within the navigation drawer -->
-    <dimen name="drawer_side_padding">16dp</dimen>
+    <dimen name="drawer_side_padding">28dp</dimen>
     <!-- Size of the icon in navigation drawer -->
     <dimen name="drawer_item_icon_size">32dp</dimen>
     <!-- The side margin of the item text in navigation drawer -->
-    <dimen name="drawer_item_text_margin">32dp</dimen>
+    <dimen name="drawer_item_text_margin">20dp</dimen>
     <!-- The height of the spacer in navigation drawer -->
     <dimen name="nav_drawer_spacer_height">8dp</dimen>
     <!-- Side padding within the navigation drawer -->

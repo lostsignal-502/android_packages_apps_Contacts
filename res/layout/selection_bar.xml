@@ -51,7 +51,7 @@
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:text="@string/menu_add_contacts"
-        android:textColor="@color/primary_color"
+        android:textColor="@color/lunaris_primary"
         android:textStyle="bold"
         android:visibility="gone"/>
 

@@ -39,7 +39,6 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.Directory;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -51,7 +50,6 @@ import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -453,18 +451,6 @@ public class DefaultContactBrowseListFragment extends ContactBrowseListFragment
 
     private View getEmptyHomeView(LayoutInflater inflater) {
         final View emptyHomeView = inflater.inflate(R.layout.empty_home_view, null);
-        // Set image margins.
-        final ImageView image = (ImageView) emptyHomeView.findViewById(R.id.empty_home_image);
-        final LayoutParams params = (LayoutParams) image.getLayoutParams();
-        final int screenHeight = getResources().getDisplayMetrics().heightPixels;
-        final int marginTop =
-                screenHeight / 2
-                        - getResources()
-                                .getDimensionPixelSize(R.dimen.empty_home_view_image_offset);
-        params.setMargins(0, marginTop, 0, 0);
-        params.gravity = Gravity.CENTER_HORIZONTAL;
-        image.setLayoutParams(params);
-
         // Set up add contact button.
         final Button addContactButton =
                 (Button) emptyHomeView.findViewById(R.id.add_contact_button);
@@ -474,18 +460,6 @@ public class DefaultContactBrowseListFragment extends ContactBrowseListFragment
 
     private View getEmptyAccountView(LayoutInflater inflater) {
         final View emptyAccountView = inflater.inflate(R.layout.empty_account_view, null);
-        // Set image margins.
-        final ImageView image = (ImageView) emptyAccountView.findViewById(R.id.empty_account_image);
-        final LayoutParams params = (LayoutParams) image.getLayoutParams();
-        final int height = getResources().getDisplayMetrics().heightPixels;
-        final int divisor =
-                getResources().getInteger(R.integer.empty_account_view_image_margin_divisor);
-        final int offset =
-                getResources().getDimensionPixelSize(R.dimen.empty_account_view_image_offset);
-        params.setMargins(0, height / divisor + offset, 0, 0);
-        params.gravity = Gravity.CENTER_HORIZONTAL;
-        image.setLayoutParams(params);
-
         // Set up add contact button.
         final Button addContactButton =
                 (Button) emptyAccountView.findViewById(R.id.add_contact_button);
@@ -622,7 +596,7 @@ public class DefaultContactBrowseListFragment extends ContactBrowseListFragment
                                                 Experiments.PULL_TO_REFRESH_CANCEL_REFRESH_MILLIS));
                     }
                 });
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.primary_color);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.lunaris_primary);
         mSwipeRefreshLayout.setDistanceToTriggerSync(
                 (int) getResources().getDimension(R.dimen.pull_to_refresh_distance));
     }

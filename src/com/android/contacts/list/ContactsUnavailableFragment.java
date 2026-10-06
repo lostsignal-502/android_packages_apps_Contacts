@@ -19,9 +19,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,12 +73,8 @@ public class ContactsUnavailableFragment extends Fragment implements OnClickList
         mMessageView = (TextView) mView.findViewById(R.id.message);
         mAddAccountButton = (Button) mView.findViewById(R.id.add_account_button);
         mAddAccountButton.setOnClickListener(this);
-        mAddAccountButton.getBackground().setColorFilter(ContextCompat.getColor(getContext(), R
-                .color.primary_color), PorterDuff.Mode.SRC_ATOP);
         mImportContactsButton = (Button) mView.findViewById(R.id.import_contacts_button);
         mImportContactsButton.setOnClickListener(this);
-        mImportContactsButton.getBackground().setColorFilter(ContextCompat.getColor(getContext(),
-                R.color.primary_color), PorterDuff.Mode.SRC_ATOP);
         mProgress = (ProgressBar) mView.findViewById(R.id.progress);
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
