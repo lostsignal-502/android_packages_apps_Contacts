@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <!-- Dark parents for the platform themes that don't follow day/night on their own. -->
+    <style name="Base.ContactsPlatform" parent="@android:style/Theme.Material" />
+    <style name="Base.ContactsPlatformDialog" parent="@android:style/Theme.Material.Dialog" />
+    <style name="Base.ContactsPlatformDialog.MinWidth"
+        parent="@android:style/Theme.Material.Dialog.MinWidth" />
+</resources>

@@ -34,7 +34,6 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,8 +42,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import com.android.contacts.ContactSaveService;
@@ -756,15 +753,6 @@ public class GroupMembersFragment extends MultiSelectContactsListFragment<GroupM
     protected View inflateView(LayoutInflater inflater, ViewGroup container) {
         final View view = inflater.inflate(R.layout.contact_list_content, /* root */ null);
         final View emptyGroupView = inflater.inflate(R.layout.empty_group_view, null);
-
-        final ImageView image = (ImageView) emptyGroupView.findViewById(R.id.empty_group_image);
-        final LinearLayout.LayoutParams params =
-                (LinearLayout.LayoutParams) image.getLayoutParams();
-        final int screenHeight = getResources().getDisplayMetrics().heightPixels;
-        params.setMargins(0, screenHeight /
-                getResources().getInteger(R.integer.empty_group_view_image_margin_divisor), 0, 0);
-        params.gravity = Gravity.CENTER_HORIZONTAL;
-        image.setLayoutParams(params);
 
         final FrameLayout contactListLayout = (FrameLayout) view.findViewById(R.id.contact_list);
         contactListLayout.addView(emptyGroupView);

@@ -184,6 +184,8 @@ public class DrawerFragment extends Fragment implements AccountsListener {
             Bundle savedInstanceState) {
         final View contentView = inflater.inflate(R.layout.drawer_fragment, null);
         mDrawerListView = (ListView) contentView.findViewById(R.id.list);
+        mDrawerListView.addHeaderView(inflater.inflate(R.layout.drawer_app_header,
+                mDrawerListView, false), null, false);
         mDrawerAdapter = new DrawerAdapter(getActivity());
         mDrawerAdapter.setSelectedContactsView(mCurrentContactsView);
         loadGroupsAndFilters();

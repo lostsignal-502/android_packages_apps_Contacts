@@ -13,8 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/dialtacts_secondary_text_color"/>
-    <corners android:radius="@dimen/nav_new_badge_corners"/>
+    <solid android:color="@color/m3e_tertiary_container" />
+    <corners android:radius="@dimen/m3e_corner_full" />
 </shape>

@@ -45,6 +45,7 @@ import android.widget.SearchView.OnCloseListener;
 import android.widget.TextView;
 
 import com.android.contacts.R;
+import com.android.contacts.util.ViewUtil;
 import com.android.contacts.activities.ActionBarAdapter.Listener.Action;
 import com.android.contacts.activities.PeopleActivity;
 import com.android.contacts.compat.CompatUtils;
@@ -148,8 +149,6 @@ public class ActionBarAdapter implements OnCloseListener {
                 /* attachToRoot = */ false);
         mSearchContainer.setVisibility(View.VISIBLE);
         mToolbar.addView(mSearchContainer);
-        mSearchContainer.setBackgroundColor(mActivity.getResources().getColor(
-                R.color.searchbox_background_color));
         mSearchView = (EditText) mSearchContainer.findViewById(R.id.search_view);
         mSearchView.setHint(mActivity.getString(mSearchHintResId));
         mSearchView.addTextChangedListener(new SearchTextWatcher());
@@ -335,7 +334,7 @@ public class ActionBarAdapter implements OnCloseListener {
             newFlags |= ActionBar.DISPLAY_SHOW_TITLE;
             mToolbar.setContentInsetsRelative(mMaxToolbarContentInsetStart,
                     mToolbar.getContentInsetEnd());
-            mToolbar.setNavigationIcon(R.drawable.quantum_ic_menu_vd_theme_24);
+            ViewUtil.setToolbarNavigationEmblem(mToolbar);
         } else {
             mToolbar.setNavigationIcon(null);
         }
@@ -361,6 +360,9 @@ public class ActionBarAdapter implements OnCloseListener {
     }
 
     private void update(boolean skipAnimation) {
+        if (mActivity instanceof PeopleActivity) {
+            ((PeopleActivity) mActivity).setLargeHeaderHidden(mSearchMode || mSelectionMode);
+        }
         updateOverflowButtonColor();
 
         final boolean isSelectionModeChanging

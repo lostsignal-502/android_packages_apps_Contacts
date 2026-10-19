@@ -17,27 +17,35 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/search_box_expanded"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="@dimen/m3e_search_bar_height"
+    android:layout_gravity="center_vertical"
+    android:layout_marginStart="@dimen/m3e_search_bar_margin_horizontal"
+    android:layout_marginEnd="@dimen/m3e_search_bar_margin_horizontal"
+    android:layout_marginTop="@dimen/m3e_search_bar_margin_vertical"
+    android:layout_marginBottom="@dimen/m3e_search_bar_margin_vertical"
+    android:paddingStart="4dp"
+    android:paddingEnd="4dp"
+    android:background="@drawable/m3e_search_bar_background"
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:visibility="gone" >
 
     <ImageButton
         android:id="@+id/search_back_button"
-        android:layout_width="@dimen/search_box_icon_size"
-        android:layout_height="@dimen/search_box_icon_size"
+        android:layout_width="@dimen/m3e_search_bar_icon_size"
+        android:layout_height="@dimen/m3e_search_bar_icon_size"
         android:layout_marginEnd="@dimen/search_box_navigation_icon_margin"
         android:src="@drawable/quantum_ic_arrow_back_vd_theme_24"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/action_menu_back_from_search"
-        android:tint="@color/actionbar_background_color" />
+        android:tint="@color/actionbar_icon_color" />
 
     <android.widget.AutoCompleteTextView
         android:id="@+id/search_view"
         android:layout_width="0dp"
-        android:layout_height="@dimen/search_box_icon_size"
+        android:layout_height="@dimen/m3e_search_bar_icon_size"
         android:layout_weight="1"
-        android:layout_marginLeft="@dimen/search_box_text_left_margin"
+        android:layout_marginStart="0dp"
         android:textSize="@dimen/search_text_size"
         android:fontFamily="@string/search_font_family"
         android:textColor="@color/searchbox_text_color"
@@ -50,9 +58,9 @@
 
     <ImageView
         android:id="@+id/search_close_button"
-        android:layout_height="@dimen/search_box_close_icon_size"
-        android:layout_width="@dimen/search_box_close_icon_size"
-        android:padding="@dimen/search_box_close_icon_padding"
+        android:layout_height="@dimen/m3e_search_bar_icon_size"
+        android:layout_width="@dimen/m3e_search_bar_icon_size"
+        android:padding="@dimen/m3e_search_bar_close_icon_padding"
         android:src="@drawable/quantum_ic_close_vd_theme_24"
         android:tint="@color/quantum_black_secondary_text"
         android:clickable="true"

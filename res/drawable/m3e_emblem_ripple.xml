@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<!-- Unbounded press feedback for buttons whose icon is its own container. -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/control_highlight_color" />

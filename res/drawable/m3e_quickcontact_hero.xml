@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<!-- Tonal hero card with two soft blobs bleeding off its corners. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/m3e_secondary_container" />
+            <corners android:radius="@dimen/m3e_hero_card_radius" />
+        </shape>
+    </item>
+    <item
+        android:width="200dp"
+        android:height="200dp"
+        android:gravity="bottom|start"
+        android:bottom="-110dp"
+        android:left="-90dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/m3e_emblem_highlight_soft" />
+        </shape>
+    </item>
+    <item
+        android:width="220dp"
+        android:height="220dp"
+        android:gravity="top|end"
+        android:right="-120dp"
+        android:top="-120dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/m3e_emblem_highlight_soft" />
+        </shape>
+    </item>
+</layer-list>

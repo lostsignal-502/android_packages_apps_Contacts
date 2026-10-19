@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 Lunaris-AOSP
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <string name="m3e_create_contact">Create contact</string>
+    <string name="m3e_quick_action_message">Message</string>
+    <string name="m3e_quick_action_video">Video</string>
+    <string name="m3e_settings_your_info">Your info</string>
+    <string name="m3e_settings_display">Display</string>
+    <string name="m3e_settings_manage">Manage</string>
+    <string name="m3e_settings_about">About</string>
+
+    <!-- Large header on the contact list. The two parts read as one headline. -->
+    <string name="m3e_header_title">Your</string>
+    <string name="m3e_header_accent">people.</string>
+    <string name="m3e_header_subtitle">Everyone you know, in one place.</string>
+
+    <!-- Hero card at the top of settings. -->
+    <string name="m3e_settings_hero_title">Made for you.</string>
+    <string name="m3e_settings_hero_summary">Your contacts, arranged your way.</string>
+</resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 Lunaris-AOSP
+     SPDX-License-Identifier: Apache-2.0
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
+
+    <ImageButton
+        android:id="@+id/preference_back"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/m3e_round_button"
+        android:contentDescription="@string/back_arrow_content_description"
+        android:src="@drawable/quantum_ic_arrow_back_vd_theme_24"
+        android:tint="@color/actionbar_icon_color" />
+
+    <TextView
+        android:id="@+id/preference_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@*android:string/config_headlineFontFamily"
+        android:textColor="@color/m3e_on_surface"
+        android:textSize="@dimen/m3e_header_title_size" />
+
+    <LinearLayout
+        android:id="@+id/preference_hero"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/m3e_hero_card"
+        android:orientation="vertical"
+        android:padding="28dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/m3e_settings_emblem" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@*android:string/config_headlineFontFamily"
+            android:text="@string/m3e_settings_hero_title"
+            android:textColor="@color/m3e_on_fab"
+            android:textSize="34sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/m3e_settings_hero_summary"
+            android:textColor="@color/m3e_on_fab"
+            android:textSize="@dimen/m3e_text_body_large" />
+
+    </LinearLayout>
+</LinearLayout>

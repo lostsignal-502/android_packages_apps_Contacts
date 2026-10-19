@@ -801,6 +801,8 @@ public abstract class ContactEntryListFragment<T extends ContactEntryListAdapter
         mListView.setOnFocusChangeListener(this);
         mListView.setOnTouchListener(this);
         mListView.setFastScrollEnabled(!isSearchMode());
+        mListView.setNestedScrollingEnabled(true);
+        mListView.setSelector(android.R.color.transparent);
 
         // Tell list view to not show dividers. We'll do it ourself so that we can *not* show
         // them when an A-Z headers is visible.

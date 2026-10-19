@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 Lunaris-AOSP
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <bool name="m3e_light_bars">true</bool>
+
+    <style name="M3e.Base.Framework" parent="@android:style/Theme.DeviceDefault.Light" />
+
+    <style name="M3e.Base.Framework.Dialog" parent="@android:style/Theme.DeviceDefault.Light.Dialog.Alert">
+        <item name="android:windowBlurBehindEnabled">true</item>
+        <item name="android:windowBlurBehindRadius">@dimen/m3e_blur_behind_radius</item>
+        <item name="android:backgroundDimAmount">0.32</item>
+    </style>
+</resources>

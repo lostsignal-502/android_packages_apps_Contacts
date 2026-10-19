@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 Lunaris-AOSP
+     SPDX-License-Identifier: Apache-2.0
+-->
+<!-- Fully rounded extended FAB, like the expressive primary action button. -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/m3e_ripple_on_primary_container">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/fab_color" />
+            <corners android:radius="@dimen/m3e_corner_full" />
+        </shape>
+    </item>
+</ripple>

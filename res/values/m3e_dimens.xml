@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<!-- Material 3 Expressive shape, spacing and type scale tokens. -->
+<resources>
+    <!-- Shape scale -->
+    <dimen name="m3e_corner_large">24dp</dimen>
+    <dimen name="m3e_corner_extra_large">28dp</dimen>
+    <dimen name="m3e_corner_full">100dp</dimen>
+
+    <!-- Spacing -->
+    <dimen name="m3e_screen_margin">16dp</dimen>
+    <dimen name="m3e_list_item_inset">8dp</dimen>
+
+    <!-- Top app bar -->
+    <dimen name="m3e_toolbar_height">64dp</dimen>
+    <dimen name="m3e_toolbar_nav_button_inset">4dp</dimen>
+    <dimen name="m3e_search_bar_height">56dp</dimen>
+    <dimen name="m3e_search_bar_margin_vertical">4dp</dimen>
+    <dimen name="m3e_search_bar_icon_size">48dp</dimen>
+    <dimen name="m3e_search_bar_close_icon_padding">12dp</dimen>
+    <dimen name="m3e_search_bar_margin_horizontal">12dp</dimen>
+
+    <!-- Medium floating action button -->
+    <dimen name="m3e_fab_size">80dp</dimen>
+    <dimen name="m3e_fab_corner_radius">24dp</dimen>
+    <dimen name="m3e_fab_icon_padding">26dp</dimen>
+    <dimen name="m3e_extended_fab_height">64dp</dimen>
+
+    <!-- Navigation drawer -->
+    <dimen name="m3e_drawer_item_inset">12dp</dimen>
+    <dimen name="m3e_drawer_item_padding_start">28dp</dimen>
+    <dimen name="m3e_drawer_item_text_margin">12dp</dimen>
+    <dimen name="m3e_drawer_emblem_size">56dp</dimen>
+    <dimen name="m3e_drawer_emblem_icon_padding">14dp</dimen>
+
+    <!-- Quick contact cards -->
+    <dimen name="m3e_card_gap">8dp</dimen>
+
+    <!-- Type scale -->
+    <dimen name="m3e_text_headline_small">24sp</dimen>
+    <dimen name="m3e_text_title_large">22sp</dimen>
+    <dimen name="m3e_text_title_medium">16sp</dimen>
+    <dimen name="m3e_text_body_large">16sp</dimen>
+    <dimen name="m3e_text_label_large">14sp</dimen>
+</resources>

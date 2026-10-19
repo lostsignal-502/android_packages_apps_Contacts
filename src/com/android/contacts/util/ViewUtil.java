@@ -21,7 +21,10 @@ import android.graphics.Outline;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.widget.ImageButton;
 import android.widget.ListView;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.contacts.R;
 import com.android.contacts.compat.CompatUtils;
@@ -57,20 +60,6 @@ public class ViewUtil {
         return view.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
     }
 
-    private static final ViewOutlineProvider OVAL_OUTLINE_PROVIDER;
-    static {
-        if (CompatUtils.isLollipopCompatible()) {
-            OVAL_OUTLINE_PROVIDER = new ViewOutlineProvider() {
-                @Override
-                public void getOutline(View view, Outline outline) {
-                    outline.setOval(0, 0, view.getWidth(), view.getHeight());
-                }
-            };
-        } else {
-            OVAL_OUTLINE_PROVIDER = null;
-        }
-    }
-
     private static final ViewOutlineProvider RECT_OUTLINE_PROVIDER;
     static {
         if (CompatUtils.isLollipopCompatible()) {
@@ -98,13 +87,13 @@ public class ViewUtil {
     }
 
     /**
-     * Configures the floating action button, clipping it to a circle and setting its translation z.
+     * Configures the floating action button, clipping it to its background and setting its translation z.
      * @param view The float action button's view.
      * @param res The resources file.
      */
     public static void setupFloatingActionButton(View view, Resources res) {
         if (CompatUtils.isLollipopCompatible()) {
-            view.setOutlineProvider(OVAL_OUTLINE_PROVIDER);
+            view.setOutlineProvider(ViewOutlineProvider.BACKGROUND);
             view.setTranslationZ(
                     res.getDimensionPixelSize(R.dimen.floating_action_button_translation_z));
         }
@@ -123,5 +112,22 @@ public class ViewUtil {
         listView.setPaddingRelative(listView.getPaddingStart(), listView.getPaddingTop(),
                 listView.getPaddingEnd(), listView.getPaddingBottom() + fabPadding);
         listView.setClipToPadding(false);
+    }
+
+    /**
+     * Shows the cookie emblem as the toolbar navigation button. The emblem carries its own
+     * colors, so drop the tonal circle and tint the navigation button style adds.
+     */
+    public static void setToolbarNavigationEmblem(Toolbar toolbar) {
+        toolbar.setNavigationIcon(R.drawable.m3e_nav_emblem);
+        for (int i = 0; i < toolbar.getChildCount(); i++) {
+            final View child = toolbar.getChildAt(i);
+            if (child instanceof ImageButton && ((ImageButton) child).getDrawable()
+                    == toolbar.getNavigationIcon()) {
+                ((ImageButton) child).setImageTintList(null);
+                child.setBackgroundResource(R.drawable.m3e_emblem_ripple);
+                break;
+            }
+        }
     }
 }

@@ -17,14 +17,17 @@ package com.android.contacts.widget;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import androidx.core.content.ContextCompat;
+
+import com.android.contacts.R;
+
 /**
  * A container that places a masking view on top of all other views.  The masking view can be
- * faded in and out.  Currently, the masking view is solid color white.
+ * faded in and out.  Currently, the masking view uses the surface color.
  */
 public class TransitionAnimationView extends FrameLayout {
     private View mMaskingView;
@@ -49,7 +52,8 @@ public class TransitionAnimationView extends FrameLayout {
         mMaskingView.setVisibility(View.INVISIBLE);
         mMaskingView.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT));
-        mMaskingView.setBackgroundColor(Color.WHITE);
+        mMaskingView.setBackgroundColor(
+                ContextCompat.getColor(getContext(), R.color.background_primary));
         addView(mMaskingView);
     }
 

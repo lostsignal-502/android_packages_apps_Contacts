@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<!-- Rounded, inset press feedback for list rows. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetLeft="@dimen/m3e_list_item_inset"
+    android:insetRight="@dimen/m3e_list_item_inset">
+    <ripple android:color="@color/control_highlight_color">
+        <item android:id="@android:id/mask">
+            <shape android:shape="rectangle">
+                <solid android:color="@android:color/white" />
+                <corners android:radius="@dimen/m3e_corner_large" />
+            </shape>
+        </item>
+    </ripple>
+</inset>

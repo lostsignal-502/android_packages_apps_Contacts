@@ -20,7 +20,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/spinner"
     android:layout_gravity="bottom|start"
-    style="@android:style/Widget.Material.Spinner.Underlined"
+    style="@android:style/Widget.Material.Spinner"
     android:layout_width="wrap_content"
     android:layout_height="@dimen/editor_min_line_item_height"
     android:paddingBottom="0dp"

@@ -30,6 +30,8 @@ import android.content.IntentFilter;
 import android.content.SyncStatusObserver;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.RenderEffect;
+import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,15 +49,19 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.google.android.material.appbar.AppBarLayout;
 import android.util.Log;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.contacts.AppCompatContactsActivity;
@@ -187,6 +193,15 @@ public class PeopleActivity extends AppCompatContactsActivity implements
     private DrawerFragment mDrawerFragment;
     private ContactsActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
+    private AppBarLayout mAppBar;
+    private View mLargeHeader;
+    private TextView mLargeHeaderTitle;
+    private View mLargeHeaderAccent;
+    private View mLargeHeaderSubtitle;
+    private View mLargeHeaderSearch;
+    private CharSequence mTitle;
+    private boolean mHeaderCollapsed;
+    private boolean mLargeHeaderHidden;
 
     // The account the new group will be created under.
     private AccountWithDataSet mNewGroupAccount;
@@ -311,6 +326,20 @@ public class PeopleActivity extends AppCompatContactsActivity implements
         }
 
         @Override
+        public void onDrawerSlide(View drawerView, float slideOffset) {
+            super.onDrawerSlide(drawerView, slideOffset);
+            final View content = findViewById(R.id.fragment_container);
+            if (!getSystemService(WindowManager.class).isCrossWindowBlurEnabled()) {
+                content.setRenderEffect(null);
+                return;
+            }
+            final float radius = slideOffset * getResources().getDimension(
+                    R.dimen.m3e_drawer_blur_radius);
+            content.setRenderEffect(radius < 1f ? null
+                    : RenderEffect.createBlurEffect(radius, radius, Shader.TileMode.CLAMP));
+        }
+
+        @Override
         public void onDrawerClosed(View view) {
             super.onDrawerClosed(view);
             invalidateOptionsMenu();
@@ -371,8 +400,24 @@ public class PeopleActivity extends AppCompatContactsActivity implements
         mToolbar = getView(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        // Add shadow under toolbar.
-        ViewUtil.addRectangularOutlineProvider(findViewById(R.id.toolbar_parent), getResources());
+        mAppBar = findViewById(R.id.app_bar);
+        mLargeHeader = findViewById(R.id.large_header);
+        mLargeHeaderTitle = findViewById(R.id.large_header_title);
+        mLargeHeaderSearch = findViewById(R.id.large_header_search);
+        mLargeHeaderAccent = findViewById(R.id.large_header_accent);
+        mLargeHeaderSubtitle = findViewById(R.id.large_header_subtitle);
+        mLargeHeaderSearch.setOnClickListener(v -> startSearchFromHeader());
+        findViewById(R.id.large_header_add).setOnClickListener(v ->
+                AccountFilterUtil.startEditorIntent(PeopleActivity.this, getIntent(),
+                        mContactListFilterController.getFilter()));
+        mAppBar.addOnOffsetChangedListener((appBar, offset) -> {
+            final boolean collapsed = mLargeHeader.getVisibility() == View.VISIBLE
+                    && offset + appBar.getTotalScrollRange() == 0;
+            if (collapsed != mHeaderCollapsed) {
+                mHeaderCollapsed = collapsed;
+                updateToolbarTitle();
+            }
+        });
 
         // Set up hamburger button.
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -541,8 +586,7 @@ public class PeopleActivity extends AppCompatContactsActivity implements
 
         // Configure floating action button
         mFloatingActionButtonContainer = findViewById(R.id.floating_action_button_container);
-        final ImageButton floatingActionButton
-                = (ImageButton) findViewById(R.id.floating_action_button);
+        final View floatingActionButton = findViewById(R.id.floating_action_button);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -973,6 +1017,7 @@ public class PeopleActivity extends AppCompatContactsActivity implements
             mContactListFilterController.setContactListFilter(current, false);
         }
         mCurrentView = ContactsView.ACCOUNT_VIEW;
+        updateLargeHeader();
         AccountFilterUtil.handleAccountFilterResult(mContactListFilterController,
                 AppCompatActivity.RESULT_OK, intent);
     }
@@ -992,6 +1037,7 @@ public class PeopleActivity extends AppCompatContactsActivity implements
 
     private void switchView(ContactsView contactsView) {
         mCurrentView = contactsView;
+        updateLargeHeader();
 
         final FragmentManager fragmentManager =  getFragmentManager();
         final FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -1023,6 +1069,7 @@ public class PeopleActivity extends AppCompatContactsActivity implements
         popSecondLevel();
         mShouldSwitchToAllContacts = false;
         mCurrentView = ContactsView.ALL_CONTACTS;
+        updateLargeHeader();
         mDrawerFragment.setNavigationItemChecked(ContactsView.ALL_CONTACTS);
         showFabWithAnimation(/* showFab */ true);
         mContactsListFragment.scrollToTop();
@@ -1041,7 +1088,7 @@ public class PeopleActivity extends AppCompatContactsActivity implements
     // Reset toolbar and status bar color to Contacts theme color.
     private void resetToolBarStatusBarColor() {
         findViewById(R.id.toolbar_frame).setBackgroundColor(
-                ContextCompat.getColor(this, R.color.primary_color));
+                ContextCompat.getColor(this, R.color.actionbar_background_color));
         updateStatusBarBackground(ContextCompat.getColor(this, R.color.primary_color_dark));
     }
 
@@ -1093,6 +1140,7 @@ public class PeopleActivity extends AppCompatContactsActivity implements
         if (enabled) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             mToggle.setDrawerIndicatorEnabled(true);
+            ViewUtil.setToolbarNavigationEmblem(mToolbar);
         } else {
             mToggle.setDrawerIndicatorEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -1107,6 +1155,9 @@ public class PeopleActivity extends AppCompatContactsActivity implements
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mToggle.syncState();
+        if (mToggle.isDrawerIndicatorEnabled()) {
+            ViewUtil.setToolbarNavigationEmblem(mToolbar);
+        }
     }
 
     @Override
@@ -1290,6 +1341,55 @@ public class PeopleActivity extends AppCompatContactsActivity implements
 
     public void closeDrawer() {
         mDrawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    protected void onTitleChanged(CharSequence title, int color) {
+        mTitle = title;
+        if (mLargeHeaderTitle != null) {
+            final boolean home = isHomeTitle();
+            mLargeHeaderTitle.setText(home ? getString(R.string.m3e_header_title) : title);
+            mLargeHeaderAccent.setVisibility(home ? View.VISIBLE : View.GONE);
+            mLargeHeaderSubtitle.setVisibility(home ? View.VISIBLE : View.GONE);
+        }
+        updateToolbarTitle();
+    }
+
+    private boolean isHomeTitle() {
+        return TextUtils.equals(mTitle, getString(R.string.contactsList));
+    }
+
+    private void updateToolbarTitle() {
+        // The home headline doesn't repeat the app name, so keep it next to the emblem.
+        super.onTitleChanged(mHeaderCollapsed || mLargeHeader == null || isHomeTitle()
+                ? mTitle : "", 0);
+    }
+
+    public void setLargeHeaderHidden(boolean hidden) {
+        mLargeHeaderHidden = hidden;
+        updateLargeHeader();
+    }
+
+    private void updateLargeHeader() {
+        if (mLargeHeader == null) {
+            return;
+        }
+        mLargeHeader.setVisibility(mLargeHeaderHidden ? View.GONE : View.VISIBLE);
+        mLargeHeaderSearch.setVisibility(isAllContactsView() || isAccountView()
+                ? View.VISIBLE : View.GONE);
+        mAppBar.setExpanded(true, false);
+    }
+
+    private void startSearchFromHeader() {
+        final ActionBarAdapter actionBarAdapter = mContactsListFragment == null
+                ? null : mContactsListFragment.getActionBarAdapter();
+        if (actionBarAdapter != null && !actionBarAdapter.isSelectionMode()) {
+            actionBarAdapter.setSearchMode(true);
+        }
+    }
+
+    public void openSettings() {
+        startActivity(createPreferenceIntent());
     }
 
     private Intent createPreferenceIntent() {

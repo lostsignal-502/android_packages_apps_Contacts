@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+
+<!-- Expressive header of the navigation drawer: a cookie emblem next to the app name. -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/drawer_side_padding"
+    android:paddingEnd="@dimen/drawer_side_padding"
+    android:paddingTop="20dp"
+    android:paddingBottom="16dp"
+    android:importantForAccessibility="no">
+
+    <ImageView
+        android:layout_width="@dimen/m3e_drawer_emblem_size"
+        android:layout_height="@dimen/m3e_drawer_emblem_size"
+        android:background="@drawable/m3e_cookie_shape"
+        android:backgroundTint="@color/m3e_primary_container"
+        android:padding="@dimen/m3e_drawer_emblem_icon_padding"
+        android:src="@drawable/quantum_ic_person_vd_theme_24"
+        android:tint="@color/m3e_on_primary_container"
+        android:scaleType="fitCenter" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="16dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="@string/applicationLabel"
+        android:textAppearance="@style/TextAppearance.Contacts.M3E.HeadlineSmall" />
+</LinearLayout>

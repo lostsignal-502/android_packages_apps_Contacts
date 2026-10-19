@@ -70,6 +70,8 @@ public class LetterTileDrawable extends Drawable {
     private int mContactType = TYPE_DEFAULT;
     private float mScale = 1.0f;
     private float mOffset = 0.0f;
+    public static final float CORNER_RATIO = 0.3f;
+
     private boolean mIsCircle = false;
 
     private int mColor;
@@ -144,7 +146,10 @@ public class LetterTileDrawable extends Drawable {
         final int minDimension = Math.min(bounds.width(), bounds.height());
 
         if (mIsCircle) {
-            canvas.drawCircle(bounds.centerX(), bounds.centerY(), minDimension / 2, sPaint);
+            final float half = minDimension / 2f;
+            final float radius = minDimension * CORNER_RATIO;
+            canvas.drawRoundRect(bounds.centerX() - half, bounds.centerY() - half,
+                    bounds.centerX() + half, bounds.centerY() + half, radius, radius, sPaint);
         } else {
             canvas.drawRect(bounds, sPaint);
         }

@@ -1,12 +1,14 @@
 package com.android.contacts.widget;
 
 import android.content.Context;
+import android.graphics.Outline;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
 
-import com.android.contacts.R;
 import com.android.contacts.lettertiles.LetterTileDrawable;
 
 /**
@@ -36,15 +38,18 @@ public class QuickContactImageView extends ImageView {
 
     public QuickContactImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(),
+                        Math.min(view.getWidth(), view.getHeight())
+                                * LetterTileDrawable.CORNER_RATIO);
+            }
+        });
+        setClipToOutline(true);
     }
 
     public void setTint(int color) {
-        if (mBitmapDrawable == null || mBitmapDrawable.getBitmap() == null
-                || mBitmapDrawable.getBitmap().hasAlpha()) {
-            setBackgroundColor(color);
-        } else {
-            setBackground(null);
-        }
         mTintColor = color;
         postInvalidate();
     }
@@ -65,13 +70,10 @@ public class QuickContactImageView extends ImageView {
         if (drawable == null || drawable instanceof BitmapDrawable) {
             bitmapDrawable = (BitmapDrawable) drawable;
         } else if (drawable instanceof LetterTileDrawable) {
-            if (!mIsBusiness) {
-                bitmapDrawable = (BitmapDrawable) getResources().getDrawable(
-                        R.drawable.person_white_540dp);
-            } else {
-                bitmapDrawable = (BitmapDrawable) getResources().getDrawable(
-                        R.drawable.generic_business_white_540dp);
-            }
+            mOriginalDrawable = drawable;
+            mBitmapDrawable = null;
+            super.setImageDrawable(drawable);
+            return;
         } else {
             throw new IllegalArgumentException("Does not support this type of drawable");
         }

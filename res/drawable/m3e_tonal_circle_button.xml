@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: 2026 The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<!-- Circular tonal container used for the toolbar navigation button. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:inset="@dimen/m3e_toolbar_nav_button_inset">
+    <ripple android:color="@color/control_highlight_color">
+        <item>
+            <shape android:shape="oval">
+                <solid android:color="@color/m3e_surface_container_high" />
+            </shape>
+        </item>
+    </ripple>
+</inset>
